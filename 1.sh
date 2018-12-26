@@ -6,7 +6,10 @@ useradd -G sudo -d /home/bot -m -s /bin/bash bot
 passwd bot
 
 sudo apt update
-sudo apt install xubuntu-core xrdp -y
+sudo apt install xubuntu-core xrdp firefox mc htop -y
+
+wget https://raw.githubusercontent.com/Cretezy/Swap/master/swap.sh -O swap && sh swap 2G
+
 #wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
 #chmod 777 ./teamviewer_amd64.deb
 #apt install ./teamviewer_amd64.deb -y
