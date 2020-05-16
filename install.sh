@@ -181,7 +181,7 @@ HERE
 
 docker-compose --file /opt/matrix/docker-compose.yml up -d
 sleep 10
-echo "Please create ferst admin-user:"
+#echo "Please create ferst admin-user:"
 docker exec -it synapse register_new_matrix_user -u admin -p $ADMIN_PASS -a -c /data/homeserver.yaml http://localhost:8008
 
 echo "#####################################################################################################################"
