@@ -175,10 +175,10 @@ HERE
 docker-compose --file /opt/matrix/docker-compose.yml up -d
 
 echo "Please create ferst admin-user:"
-docker exec -it synapse register_new_matrix_user -c /data/homeserver.yaml http://localhost:8008
+docker exec -it synapse register_new_matrix_user -u admin -a -c /data/homeserver.yaml http://localhost:8008
 
 echo "#####################################################################################################################"
 
 echo "RIOT web-cletnt    :  https://$SYNAPSE_DOMAIN/riot/"
 echo "Admin web-panel    :  https://$SYNAPSE_DOMAIN/admin/"
-
+echo "user               :  admin"
