@@ -2,11 +2,18 @@
 
 echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
 read SYNAPSE_DOMAIN
+echo "Please set matrix admin password"
+read ADMIN_PASS
 echo "Please wait..."
 
 curl -SsL https://get.docker.com | sh &> /dev/null
 systemctl start docker && systemctl enable docker 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose &> /dev/null
+
+docker-compose --file /opt/matrix/docker-compose.yml down &> /dev/null
+docker volume rm matrix_matrix &> /dev/null
+rm -R /opt/matrix &> /dev/null
+rm -R /root/install.sh &> /dev/null
 
 mkdir  -p /opt/matrix/data
 cd /opt/matrix
@@ -175,10 +182,11 @@ HERE
 docker-compose --file /opt/matrix/docker-compose.yml up -d
 
 echo "Please create ferst admin-user:"
-docker exec -it synapse register_new_matrix_user -u admin -a -c /data/homeserver.yaml http://localhost:8008
+docker exec -it synapse register_new_matrix_user -u admin -p $ADMIN_PASS -a -c /data/homeserver.yaml http://localhost:8008
 
 echo "#####################################################################################################################"
 
+echo "Matrix server      :  https://$SYNAPSE_DOMAIN"
 echo "RIOT web-cletnt    :  https://$SYNAPSE_DOMAIN/riot/"
 echo "Admin web-panel    :  https://$SYNAPSE_DOMAIN/admin/"
-echo "user               :  admin"
+echo "user password      :  admin          $ADMIN_PASS"
