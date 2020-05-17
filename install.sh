@@ -1,24 +1,20 @@
 #!/bin/bash
 
-echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com" $DIG_IP
+echo "Please set SYNAPSE_SERVER_NAME. Example: matrix.domain.com"
 read SYNAPSE_DOMAIN
 
 DIG_IP=$(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
 IP=$(curl ifconfig.me)
 
 if [ -z "$DIG_IP" ]; then echo Unable to resolve $SYNAPSE_DOMAIN. Installation aborted &&  exit 1
-
-if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP. Check that a DNS record exists for this domain"
-
+fi
+if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP. Maybe you are usingn Cloudflare"
    read -p "Continue anyway? [y/N] " -n 1 -r
    echo
    echo   "Installation aborted"
-   if [[ ! $REPLY =~ ^[Yy]$ ]]
-   then
-   exit 1
-fi
+   if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 1
+   fi
  fi
-
 echo "Please set matrix admin password"
 read ADMIN_PASS
 echo "Please wait..."
