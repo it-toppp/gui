@@ -5,7 +5,7 @@ IP=$(hostname -I | cut -d' ' -f1)
 
 echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
 read SYNAPSE_DOMAIN
-if [ -z "$DIG_IP" ];.
+if [ -z "$DIG_IP" ];
 then echo "Unable to resolve $SYNAPSE_DOMAIN to an local IP address. Check A Record"
 
    read -p "Continue anyway? [y/N] " -n 1 -r
