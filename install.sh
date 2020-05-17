@@ -130,7 +130,7 @@ services:
   
   db:
     image: docker.io/postgres:10-alpine
-    container_name: riot_db
+    container_name: db
     restart: always
     environment:
       - POSTGRES_DB=synapse
