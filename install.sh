@@ -95,13 +95,14 @@ services:
       - traefik.entryPoint=https
       - traefik.backend=admin
       - traefik.frontend.rule=Host:$SYNAPSE_DOMAIN; PathPrefixStrip:/admin/
+  
   riotweb:
     container_name: riotweb
-    image: bubuntux/riot-web:latest
+    image: vectorim/riot-web:latest
 #    hostname: riotweb
     restart: unless-stopped
     volumes:
-      - /opt/matrix/config.json:/etc/riot-web/config.json:ro
+      - /opt/matrix/config.json:/app/config.json:ro
     labels:
       - traefik.enable=true
       - traefik.port=80
