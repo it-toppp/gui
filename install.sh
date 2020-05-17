@@ -1,16 +1,10 @@
 #!/bin/bash
 
-echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
-read SYNAPSE_DOMAIN
-
-IP=$(hostname -I | cut -d' ' -f1)
-echo $IP
-echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
-read SYNAPSE_DOMAIN
-
 DIG_IP=$(dig +short $SYNAPSE_DOMAIN | grep '^[.0-9]*$' | tail -n1)
 IP=$(hostname -I | cut -d' ' -f1)
 
+echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
+read SYNAPSE_DOMAIN
 if [ -z "$DIG_IP" ];.
 then echo "Unable to resolve $SYNAPSE_DOMAIN to an local IP address. Check A Record"
 
