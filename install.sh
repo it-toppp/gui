@@ -3,6 +3,7 @@ echo "Please set SYNAPSE_SERVER_NAME. Example: matrix.domain.com"
 read SYNAPSE_DOMAIN
 DIG_IP=$(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
 IP=$(curl ifconfig.me)
+DB_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 
 if [ -z "$DIG_IP" ]; then echo Unable to resolve $SYNAPSE_DOMAIN. Installation aborted &&  exit 1
 fi
@@ -111,6 +112,11 @@ services:
     image: matrixdotorg/synapse
     container_name: synapse
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_HOST: db
+      POSTGRES_DB: synapse
     volumes:
       - matrix:/data
     labels:
@@ -119,6 +125,20 @@ services:
       - traefik.entryPoint=https
       - traefik.backend=synapse
       - traefik.frontend.rule=Host:$SYNAPSE_DOMAIN
+  
+  db:
+    image: docker.io/postgres:10-alpine
+    container_name: riot_db
+    restart: always
+    environment:
+      - POSTGRES_DB=synapse
+      - POSTGRES_USER=synapse
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+    volumes:
+      - ./Postgres:/var/lib/postgresql/data
+    labels:
+      - traefik.enable=false
+
 volumes:
   letsencrypt:
   matrix:
