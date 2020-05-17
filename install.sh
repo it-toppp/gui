@@ -1,8 +1,6 @@
 #!/bin/bash
-
 echo "Please set SYNAPSE_SERVER_NAME. Example: matrix.domain.com"
 read SYNAPSE_DOMAIN
-
 DIG_IP=$(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
 IP=$(curl ifconfig.me)
 
@@ -18,7 +16,6 @@ if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved t
 echo "Please set matrix admin password"
 read ADMIN_PASS
 echo "Please wait..."
-
 curl -SsL https://get.docker.com | sh &> /dev/null
 systemctl start docker && systemctl enable docker 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose &> /dev/null
@@ -44,8 +41,9 @@ read -r -p "Are you sure? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     sed -i 's|#enable_registration: false|enable_registration: true|' /opt/matrix/data/homeserver.yaml
+    echo registration enabled
 else
-    echo disabled
+    echo registration disabled
 fi
 
 cat >> /opt/matrix/docker-compose.yml << HERE
@@ -193,7 +191,6 @@ docker-compose --file /opt/matrix/docker-compose.yml up -d
 sleep 10
 #echo "Please create ferst admin-user:"
 docker exec -it synapse register_new_matrix_user -u admin -p $ADMIN_PASS -a -c /data/homeserver.yaml http://localhost:8008
-
 echo "#####################################################################################################################"
 
 echo "Matrix server      :  https://$SYNAPSE_DOMAIN"
