@@ -2,6 +2,38 @@
 
 echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
 read SYNAPSE_DOMAIN
+
+IP=$(hostname -I | cut -d' ' -f1)
+echo $IP
+echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
+read SYNAPSE_DOMAIN
+
+DIG_IP=$(dig +short $SYNAPSE_DOMAIN | grep '^[.0-9]*$' | tail -n1)
+IP=$(hostname -I | cut -d' ' -f1)
+
+if [ -z "$DIG_IP" ];.
+then echo "Unable to resolve $SYNAPSE_DOMAIN to an local IP address. Check A Record"
+
+   read -p "Continue anyway? [y/N] " -n 1 -r
+     echo
+     echo   "Installation abored"
+   if [[ ! $REPLY =~ ^[Yy]$ ]]
+   then
+   exit 1
+fi
+ fi
+
+if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP."
+
+   read -p "Continue anyway? [y/N] " -n 1 -r
+   echo
+   echo   "Installation aborted"
+   if [[ ! $REPLY =~ ^[Yy]$ ]]
+   then
+   exit 1
+fi
+ fi
+
 echo "Please set matrix admin password"
 read ADMIN_PASS
 echo "Please wait..."
@@ -35,11 +67,8 @@ else
     echo disabled
 fi
 
-
 cat >> /opt/matrix/docker-compose.yml << HERE
-
 version: '3.7'
-
 services:
   traefik:
     container_name: traefik
