@@ -32,6 +32,7 @@ docker run -it --rm \
     --mount type=bind,source="/opt/matrix/data",dst=/data \
     -e SYNAPSE_SERVER_NAME=$SYNAPSE_DOMAIN \
     -e SYNAPSE_REPORT_STATS=yes \
+    -e POSTGRES_PASSWORD=$DB_PASSWORD \
     -e SYNAPSE_CONFIG_PATH=/data/homeserver.yaml \
     matrixdotorg/synapse:latest generate
 
