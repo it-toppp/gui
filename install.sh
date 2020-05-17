@@ -137,6 +137,7 @@ services:
       - POSTGRES_DB=synapse
       - POSTGRES_USER=synapse
       - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
     volumes:
       - ./Postgres:/var/lib/postgresql/data
     labels:
