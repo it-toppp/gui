@@ -34,15 +34,15 @@ docker run -it --rm \
     -e SYNAPSE_REPORT_STATS=yes \
     -e POSTGRES_PASSWORD=$DB_PASSWORD \
     -e SYNAPSE_CONFIG_PATH=/data/homeserver.yaml \
-    matrixdotorg/synapse:latest generate
+    matrixdotorg/synapse:latest migrate_config
 
-sed -i 's|#max_upload_size: 10M|max_upload_size: 1024M|' /opt/matrix/data/homeserver.yaml
+sed -i 's|max_upload_size: "10M"|max_upload_size: "1024M"|' /opt/matrix/data/homeserver.yaml
 
 echo 'Do you wish to enabled registration of new users via Matrix clients? select yn in "Yes" "No"'
 read -r -p "Are you sure? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-    sed -i 's|#enable_registration: false|enable_registration: true|' /opt/matrix/data/homeserver.yaml
+    sed -i 's|enable_registration: False|enable_registration: True|' /opt/matrix/data/homeserver.yaml
     echo registration enabled
 else
     echo registration disabled
