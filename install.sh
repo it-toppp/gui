@@ -1,14 +1,13 @@
 #!/bin/bash
 
-DIG_IP=$(curl ifconfig.me)
-IP=$(hostname -I | cut -d' ' -f1)
-
-echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com"
+echo "Please set SYNAPSE_SERVER_NAME. Example matrix.domain.com" $DIG_IP
 read SYNAPSE_DOMAIN
-if [ -z "$DIG_IP" ];
-then echo "Unable to resolve $SYNAPSE_DOMAIN to an local IP address. Check that a DNS record exists for this domain."
-   exit 1
- fi
+
+DIG_IP=$(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
+IP=$(curl ifconfig.me)
+
+if [ -z "$DIG_IP" ]; then echo Unable to resolve $SYNAPSE_DOMAIN. Installation aborted &&  exit 1
+
 if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP. Check that a DNS record exists for this domain"
 
    read -p "Continue anyway? [y/N] " -n 1 -r
