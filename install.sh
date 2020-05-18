@@ -120,6 +120,8 @@ services:
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_HOST: db
       POSTGRES_DB: synapse
+    depends_on:
+      - db
     volumes:
       - matrix:/data
     labels:
