@@ -14,7 +14,7 @@ if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved t
    if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 1
    fi
  fi
-echo -n "Please set matrix admin password and press [ENTER]"
+echo -n "Please set matrix admin password and press [ENTER]:  "
 read ADMIN_PASS
 echo "Please wait..."
 curl -SsL https://get.docker.com | sh &> /dev/null
