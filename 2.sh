@@ -38,8 +38,6 @@ yum install ffmpeg ffmpeg-devel nano mc htop atop iftop lsof bzip2 traceroute gd
 
 wget https://raw.githubusercontent.com/Skamasle/sk-php-selector/master/sk-php-selector2.sh && chmod +x sk-php-selector2.sh && bash sk-php-selector2.sh php70 php71 php72 php73
 
-
-
 cat >>/etc/httpd/conf.d/fcgid.conf << HERE 
 
 FcgidBusyTimeout 72000
@@ -49,7 +47,7 @@ MaxRequestLen 320000000000
 FcgidMaxRequestLen 320000000000
 HERE
 
-VESTA CP FileManager:
+#VESTA CP FileManager:
 cat >> /usr/local/vesta/conf/vesta.conf << HERE 
 FILEMANAGER_KEY='mykey'
 SFTPJAIL_KEY='mykey'
@@ -60,11 +58,8 @@ sed -i 's|answer=$(curl -s $v_host/activate.php?licence_key=$license&module=$mod
 sed -i 's|check_result|#check_result|' /usr/local/vesta/bin/v-activate-vesta-license
 sed -i 's|$BIN/v-check-vesta-license|#$BIN/v-check-vesta-license|' /usr/local/vesta/bin/v-backup-users
 
+echo "Vesta Control Panel"
 
-# Sending notification to admin email
-echo -e "Congratulations, you have just successfully installed \
-Vesta Control Panel
-
-    https://$ip:8083
-    username: admin
-    password: $vpass
+echo     https://$ip:8083
+echo     username: admin
+echo     password: $vpass
