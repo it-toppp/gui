@@ -7,7 +7,7 @@ DB_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 
 if [ -z "$DIG_IP" ]; then echo Unable to resolve $SYNAPSE_DOMAIN. Installation aborted &&  exit 1
 fi
-if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP. Maybe you are usingn Cloudflare"
+if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP"
    read -p "Continue anyway? [y/N] " -n 1 -r
    echo
    echo   "Installation aborted"
