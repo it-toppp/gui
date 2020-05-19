@@ -2,7 +2,7 @@
 
 rm -Rfv /etc/yum.repos.d/CentOS-Vault.repo &> /dev/null
 
-curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi yes --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no --password as#^jf8d
+curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi yes --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no
 #rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro 
 #rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 #systemctl stop firewalld.service && /bin/systemctl disable firewalld.service 
@@ -39,12 +39,21 @@ yum install ffmpeg ffmpeg-devel nano mc htop atop iftop lsof bzip2 traceroute gd
 wget https://raw.githubusercontent.com/Skamasle/sk-php-selector/master/sk-php-selector2.sh && chmod +x sk-php-selector2.sh && bash sk-php-selector2.sh php70 php71 php72 php73
 
 cat >>/etc/httpd/conf.d/fcgid.conf << HERE 
-
 FcgidBusyTimeout 72000
 FcgidIOTimeout 72000
 IPCCommTimeout 72000
 MaxRequestLen 320000000000
 FcgidMaxRequestLen 320000000000
+HERE
+
+cat >>/etc/php.ini << HERE 
+output_buffering = 4096
+zlib.output_compression = Off
+max_execution_time = 1800
+max_input_time = 1800
+memory_limit = 2048M
+post_max_size = 2000M
+upload_max_filesize = 4048M
 HERE
 
 #VESTA CP FileManager:
