@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Please set SYNAPSE_SERVER_NAME. Example: matrix.domain.com"
+echo -n "Please set SYNAPSE_SERVER_NAME and press [ENTER]. Example: matrix.domain.com:  "
 read SYNAPSE_DOMAIN
 DIG_IP=$(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
 IP=$(curl ifconfig.me)
@@ -14,7 +14,7 @@ if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved t
    if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 1
    fi
  fi
-echo "Please set matrix admin password"
+echo -n "Please set matrix admin password and press [ENTER]"
 read ADMIN_PASS
 echo "Please wait..."
 curl -SsL https://get.docker.com | sh &> /dev/null
