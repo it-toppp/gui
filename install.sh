@@ -10,8 +10,7 @@ fi
 if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP"
    read -p "Continue anyway? [y/N] " -n 1 -r
    echo
-   echo   "Installation aborted"
-   if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 1
+   if [[ ! $REPLY =~ ^[Yy]$ ]]; then echo "Installation aborted" exit 1
    fi
  fi
 echo -n "Please set matrix admin password and press [ENTER]:  "
