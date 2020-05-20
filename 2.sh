@@ -3,8 +3,9 @@
 rm -Rfv /etc/yum.repos.d/CentOS-Vault.repo &> /dev/null
 
 curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi yes --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no
-#rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro 
-#rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro 
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+#yum install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 #systemctl stop firewalld.service && /bin/systemctl disable firewalld.service 
 
 cat > /etc/yum.repos.d/mariadb.repo << HERE 
@@ -20,6 +21,7 @@ yum remove mariadb mariadb-server -y
 yum install MariaDB-server MariaDB-client -y
 systemctl start mariadb 
 mysql_upgrade
+
 cat >>/etc/my.cnf << HERE 
 performance-schema=0
 innodb_file_per_table=1
@@ -30,7 +32,7 @@ open_files_limit=2048
 sql_mode=NO_ENGINE_SUBSTITUTION
 default-storage-engine=MyISAM
 max_connections = 5000000
-HERE 
+HERE
 
 systemctl restart mariadb
 
@@ -69,6 +71,3 @@ sed -i 's|$BIN/v-check-vesta-license|#$BIN/v-check-vesta-license|' /usr/local/ve
 
 echo "Vesta Control Panel"
 
-echo     https://$ip:8083
-echo     username: admin
-echo     password: $vpass
