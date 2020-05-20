@@ -19,7 +19,7 @@ HERE
 systemctl stop mariadb 
 yum remove mariadb mariadb-server -y
 yum install MariaDB-server MariaDB-client -y
-systemctl start mariadb 
+systemctl start mariadb && systemctl enable mariadb
 mysql_upgrade
 
 cat >>/etc/my.cnf << HERE 
