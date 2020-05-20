@@ -22,7 +22,8 @@ HERE
 systemctl stop mariadb 1>/dev/null
 yum remove mariadb mariadb-server -y 1>/dev/null
 yum install MariaDB-server MariaDB-client -y 1>/dev/null
-systemctl start mariadb && systemctl enable mariadb  1>/dev/null
+systemctl start mariadb 1>/dev/null
+systemctl enable mariadb  1>/dev/null
 mysql_upgrade 1>/dev/null
 
 cat >>/etc/my.cnf << HERE 
@@ -60,6 +61,16 @@ memory_limit = 2048M
 post_max_size = 2000M
 upload_max_filesize = 4048M
 HERE
+systemstl restart httpd 1>/dev/null
+
+#nginx
+sed -i 's|client_max_body_size            256m|client_max_body_size            2048m|' /etc/nginx/nginx.conf
+sed -i 's|worker_connections  1024;|worker_connections  2024;|' /etc/nginx/nginx.conf
+sed -i 's|send_timeout                    30;|send_timeout                    3000;|' /etc/nginx/nginx.conf
+sed -i 's|proxy_connect_timeout   90|proxy_connect_timeout   9000|' /etc/nginx/nginx.conf
+sed -i 's|proxy_send_timeout  90|proxy_send_timeout  9000|' /etc/nginx/nginx.conf
+sed -i 's|proxy_read_timeout  90|proxy_read_timeout  9000|' /etc/nginx/nginx.conf
+systemstl restart nginx 1>/dev/null
 
 #VESTA CP FileManager:
 cat >> /usr/local/vesta/conf/vesta.conf << HERE 
