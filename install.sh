@@ -1,9 +1,11 @@
 #!/bin/bash
 echo -n "Please set SYNAPSE_SERVER_NAME and press [ENTER]. Example: matrix.domain.com:  "
 read SYNAPSE_DOMAIN
-DIG_IP=$(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
+DIG_IP=$(getent ahostsv4 $SYNAPSE_DOMAIN | sed -n 's/ *STREAM.*//p')
+#(getent hosts $SYNAPSE_DOMAIN | awk '{ print $1 }')
 IP=$(curl ifconfig.me)
 DB_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+ADMIN_PASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 
 if [ -z "$DIG_IP" ]; then echo Unable to resolve $SYNAPSE_DOMAIN. Installation aborted &&  exit 1
 fi
@@ -14,8 +16,6 @@ if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved t
      exit 1
    fi
  fi
-echo -n "Please set matrix admin password and press [ENTER]:  "
-read ADMIN_PASS
 echo "Please wait..."
 curl -SsL https://get.docker.com | sh &> /dev/null
 systemctl start docker && systemctl enable docker 
