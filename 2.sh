@@ -26,16 +26,28 @@ systemctl start mariadb 1>/dev/null
 systemctl enable mariadb  1>/dev/null
 mysql_upgrade 1>/dev/null
 
-cat >>/etc/my.cnf << HERE 
+cat >/etc/my.cnf << HERE 
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+symbolic-links=0
 performance-schema=0
 innodb_file_per_table=1
 innodb_buffer_pool_size=134217728
 max_allowed_packet=268435456
 open_files_limit=2048
-#innodb_buffer_pool_size=3000M
+innodb_buffer_pool_size=4000M
 sql_mode=NO_ENGINE_SUBSTITUTION
 default-storage-engine=MyISAM
 max_connections = 5000000
+#innodb_use_native_aio = 0
+innodb_file_per_table
+#slow_query_log=1
+#slow_query_log_file=/var/log/mysql-slow-queries.log
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+!includedir /etc/my.cnf.d
 HERE
 
 systemctl restart mariadb 1>/dev/null
