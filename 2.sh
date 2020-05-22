@@ -76,43 +76,55 @@ upload_max_filesize = 4048M
 HERE
 
 cat >>/etc/opt/remi/php70/php.ini << HERE 
-output_buffering = 4096
+file_uploads = On
+allow_url_fopen = On
+post_max_size = 2024M
+upload_max_filesize = 2024M
+output_buffering = Off
+max_execution_time = 6000
+max_input_vars = 3000
+max_input_time = 6000
 zlib.output_compression = Off
-max_execution_time = 1800
-max_input_time = 1800
-memory_limit = 2048M
-post_max_size = 2000M
-upload_max_filesize = 4048M
+memory_limit = 1000M
 HERE
 
 cat >>/etc/opt/remi/php71/php.ini << HERE 
-output_buffering = 4096
+file_uploads = On
+allow_url_fopen = On
+post_max_size = 2024M
+upload_max_filesize = 2024M
+output_buffering = Off
+max_execution_time = 6000
+max_input_vars = 3000
+max_input_time = 6000
 zlib.output_compression = Off
-max_execution_time = 1800
-max_input_time = 1800
-memory_limit = 2048M
-post_max_size = 2000M
-upload_max_filesize = 4048M
+memory_limit = 1000M
 HERE
 
 cat >>/etc/opt/remi/php72/php.ini << HERE 
-output_buffering = 4096
+file_uploads = On
+allow_url_fopen = On
+post_max_size = 2024M
+upload_max_filesize = 2024M
+output_buffering = Off
+max_execution_time = 6000
+max_input_vars = 3000
+max_input_time = 6000
 zlib.output_compression = Off
-max_execution_time = 1800
-max_input_time = 1800
-memory_limit = 2048M
-post_max_size = 2000M
-upload_max_filesize = 4048M
+memory_limit = 1000M
 HERE
 
 cat >>/etc/opt/remi/php73/php.ini << HERE 
-output_buffering = 4096
+file_uploads = On
+allow_url_fopen = On
+post_max_size = 2024M
+upload_max_filesize = 2024M
+output_buffering = Off
+max_execution_time = 6000
+max_input_vars = 3000
+max_input_time = 6000
 zlib.output_compression = Off
-max_execution_time = 1800
-max_input_time = 1800
-memory_limit = 2048M
-post_max_size = 2000M
-upload_max_filesize = 4048M
+memory_limit = 1000M
 HERE
 
 systemctl restart httpd 1>/dev/null
