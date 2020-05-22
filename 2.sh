@@ -54,7 +54,8 @@ echo "Fix MYSQL successfully"
 
 yum install ffmpeg ffmpeg-devel nano mc htop atop iftop lsof bzip2 traceroute gdisk php74-php-curl php74-php-mbstring  php74-php-xml php74-php-gd php74-php-fileinfo php74-php-exif php74-php-intl php74-php-zip php74-php-mysqli php74-php-curl php74-php-ctype php74-php-openssl php74-php-pdo php74-php-opcache php74-php-simplexml php74-php-mysql php72-php-mbstring php72-php-xml php72-php-gd php72-php-fileinfo php72-php-intl php72-php-zip php72-php-mysqli php72-php-curl php72-php-ctype php72-php-openssl php72-php-pdo php72-php-exif php72-php-opcache php72-php-simplexml php72-php-mysql php72-php-curl php74-php-xdebug php73-php-xdebug php72-php-xdebug php70-php-xdebug php72-php-soap php73-php-soap php74-php-soap -y &> /dev/null
 
-wget https://raw.githubusercontent.com/Skamasle/sk-php-selector/master/sk-php-selector2.sh && chmod +x sk-php-selector2.sh && bash sk-php-selector2.sh php70 php71 php72 php73 &> /dev/null
+wget https://raw.githubusercontent.com/Skamasle/sk-php-selector/master/sk-php-selector2.sh &> /dev/null
+chmod +x sk-php-selector2.sh && bash sk-php-selector2.sh php70 php71 php72 php73 &> /dev/null
 
 cat >>/etc/httpd/conf.d/fcgid.conf << HERE 
 FcgidBusyTimeout 72000
@@ -73,6 +74,47 @@ memory_limit = 2048M
 post_max_size = 2000M
 upload_max_filesize = 4048M
 HERE
+
+cat >>/etc/opt/remi/php70/php.ini << HERE 
+output_buffering = 4096
+zlib.output_compression = Off
+max_execution_time = 1800
+max_input_time = 1800
+memory_limit = 2048M
+post_max_size = 2000M
+upload_max_filesize = 4048M
+HERE
+
+cat >>/etc/etc/opt/remi/php71/php.ini << HERE 
+output_buffering = 4096
+zlib.output_compression = Off
+max_execution_time = 1800
+max_input_time = 1800
+memory_limit = 2048M
+post_max_size = 2000M
+upload_max_filesize = 4048M
+HERE
+
+cat >>/etc/opt/remi/php72/php.ini << HERE 
+output_buffering = 4096
+zlib.output_compression = Off
+max_execution_time = 1800
+max_input_time = 1800
+memory_limit = 2048M
+post_max_size = 2000M
+upload_max_filesize = 4048M
+HERE
+
+cat >>/etc/opt/remi/php73/php.ini << HERE 
+output_buffering = 4096
+zlib.output_compression = Off
+max_execution_time = 1800
+max_input_time = 1800
+memory_limit = 2048M
+post_max_size = 2000M
+upload_max_filesize = 4048M
+HERE
+
 systemctl restart httpd 1>/dev/null
 echo "Fix PHP and HTTPD successfully"
 
