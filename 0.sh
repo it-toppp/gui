@@ -82,8 +82,6 @@ HERE
 chmod +x /etc/rc.local 
 systemctl enable rc.local
 
-#ssh Вставить свой публичный ключ, Строка должна начинаться с ssh-rsa AAA..
-echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAoHfm4pvvJw0NUUv3nKez4MlX4v/gV+8TWvqMwVbbixRdXI4hXtZtX0HMN3jU1ObV+KTFJW0nwqG2Al52BSUWyDr7MNQ9N+z6FV81uEtTTvEICL2PtyTE6bKLTJrJ5xt+irEksKjfPlHqNAHXGKht7lVYu/GdaJo1JhTuujkfTG+Le5rJ2m21wNak/pJDag5bsRip30ZB/grhIQB9tQ02MmnX2HnsnHUBtHMGIZHQK5s9WaO79ioea4ZtjsCiZTaET75NOeAVJzLjnnaGbdoDJ9qQ3+39k9jE7w1ZXGoXYIDD/SsTZhpUDfrH0sgI6A9D+PbRl3epZXR4wab1el5kPw==' > /root/.ssh/authorized_keys
 
 #Отключаем вход по паролю
 #sed -i 's|#PasswordAuthentication yes|PasswordAuthentication no|' /etc/ssh/sshd_config
@@ -94,12 +92,22 @@ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAoHfm4pvvJw0NUUv3nKez4MlX4v/gV+8TWvqMwV
 echo “1” > /proc/sys/net/ipv4/icmp_echo_ignore_all
 echo “net.ipv4.icmp_echo_ignore_all = 1” >> /etc/sysctl.conf
 sysctl -p
-
 ufw allow 22
 ufw allow 3390
 ufw enable
+apt-get install -y fail2ban
+
+cat > /etc/fail2ban/jail.local << HERE
+[sshd]
+enabled = true
+port = 22
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+HERE
+
+systemctl enable fail2ban && systemctl restart fail2ban
 
 #logs delete
 ### Crontab ###
-crontab -l | { cat; echo "*/5 * * * *  for CLEAN in \$(find /var/log/* -type f); do cat /dev/null > \$CLEAN ; done "; } | crontab -
-
+crontab -l | { cat; echo "10 * * *  for CLEAN in \$(find /var/log/* -type f); do cat /dev/null > \$CLEAN ; done "; } | crontab -
