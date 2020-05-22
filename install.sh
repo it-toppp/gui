@@ -38,6 +38,7 @@ docker run -it --rm \
     matrixdotorg/synapse:latest migrate_config
 
 sed -i 's|max_upload_size: "10M"|max_upload_size: "1024M"|' /opt/matrix/data/homeserver.yaml
+sed -i 's|x_forwarded: false|x_forwarded: true|' /opt/matrix/data/homeserver.yaml
 
 echo 'Do you wish to enabled registration of new users via Matrix clients? select yn in "Yes" "No"'
 read -r -p "Are you sure? [y/N] " response
