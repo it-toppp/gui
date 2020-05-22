@@ -7,6 +7,13 @@ IP=$(curl ifconfig.me)
 DB_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ADMIN_PASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 
+res1=$(ss -lnt | awk '$1 == "LISTEN" && $4 ~ ".80"');
+if [ "$res1" != '' ]; then echo "port 80 is in use, installation canceled" &&  exit 1
+fi
+res2=$(ss -lnt | awk '$1 == "LISTEN" && $4 ~ ".443"');
+if [ "$res1" != '' ]; then echo "port 443 is in use, installation canceled" &&  exit 1
+fi
+
 if [ -z "$DIG_IP" ]; then echo Unable to resolve $SYNAPSE_DOMAIN. Installation aborted &&  exit 1
 fi
 if [ "$DIG_IP" != "$IP" ]; then echo  "DNS lookup for $SYNAPSE_DOMAIN resolved to $DIG_IP but didn't match local $IP"
