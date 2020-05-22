@@ -85,7 +85,7 @@ post_max_size = 2000M
 upload_max_filesize = 4048M
 HERE
 
-cat >>/etc/etc/opt/remi/php71/php.ini << HERE 
+cat >>/etc/opt/remi/php71/php.ini << HERE 
 output_buffering = 4096
 zlib.output_compression = Off
 max_execution_time = 1800
