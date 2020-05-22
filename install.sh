@@ -136,7 +136,7 @@ services:
       - traefik.enable=true
       - traefik.port=8008
       - traefik.entryPoint=https
-      - traefik.backend=synapse
+#      - traefik.backend=synapse
       - traefik.frontend.rule=Host:$SYNAPSE_DOMAIN
   
   db:
