@@ -21,9 +21,9 @@ HERE
 
 systemctl stop mariadb 1>/dev/null
 yum remove mariadb mariadb-server -y 1>/dev/null
-yum install MariaDB-server MariaDB-client -y 1>/dev/null
+yum install MariaDB-server MariaDB-client -y &> /dev/null
 systemctl start mariadb 1>/dev/null
-systemctl enable mariadb  1>/dev/null
+systemctl enable mariadb &> /dev/null
 mysql_upgrade 1>/dev/null
 
 cat >/etc/my.cnf << HERE 
