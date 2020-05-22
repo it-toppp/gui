@@ -89,7 +89,7 @@ systemctl enable rc.local
 #systemctl restart sshd
 
 #настройка фаервола. Запрещаем все входящие кроме RDP и SSH
-echo “1” > /proc/sys/net/ipv4/icmp_echo_ignore_all
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 echo “net.ipv4.icmp_echo_ignore_all = 1” >> /etc/sysctl.conf
 sysctl -p
 ufw allow 22
