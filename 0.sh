@@ -74,14 +74,6 @@ echo "/swapfile   none    swap    sw    0   0" | tee /etc/fstab -a
 #systemctl restart sshd
 
 #настройка фаервола. Запрещаем все входящие кроме RDP и SSH
-
-echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
-echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
-sysctl -p
-ufw allow 22
-ufw allow 3390
-ufw enable
-
 apt-get install -y fail2ban
 
 cat > /etc/fail2ban/jail.local << HERE
@@ -94,6 +86,12 @@ maxretry = 3
 HERE
 
 systemctl enable fail2ban && systemctl restart fail2ban
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
+sysctl -p
+ufw allow 22
+ufw allow 3390
+ufw enable
 
 #TOR - Весь трафик  перенаправляется на Tor
 
