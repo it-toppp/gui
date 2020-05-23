@@ -68,33 +68,20 @@ mkswap /swapfile
 swapon /swapfile
 echo "/swapfile   none    swap    sw    0   0" | tee /etc/fstab -a
 
-#TOR - Весь трафик  перенаправляется на Tor
-apt install tor -y
-echo 'TransPort 9040' >> /etc/tor/torrc
-systemctl restart tor
-systemctl enable tor 
-iptables -t nat -A OUTPUT ! -s 127.0.0.1/8 -p tcp --syn -j REDIRECT --to-ports 9040
-cat > /etc/rc.local << HERE
-#!/bin/sh -e 
-iptables -t nat -A OUTPUT ! -s 127.0.0.1/8 -p tcp --syn -j REDIRECT --to-ports 9040
-exit 0 
-HERE
-chmod +x /etc/rc.local 
-systemctl enable rc.local
-
-
 #Отключаем вход по паролю
 #sed -i 's|#PasswordAuthentication yes|PasswordAuthentication no|' /etc/ssh/sshd_config
 #echo 'AddressFamily inet' >> /etc/ssh/sshd_config
 #systemctl restart sshd
 
 #настройка фаервола. Запрещаем все входящие кроме RDP и SSH
+
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
-echo “net.ipv4.icmp_echo_ignore_all = 1” >> /etc/sysctl.conf
+echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
 sysctl -p
 ufw allow 22
 ufw allow 3390
 ufw enable
+
 apt-get install -y fail2ban
 
 cat > /etc/fail2ban/jail.local << HERE
@@ -108,6 +95,31 @@ HERE
 
 systemctl enable fail2ban && systemctl restart fail2ban
 
+#TOR - Весь трафик  перенаправляется на Tor
+
+apt install tor -y
+echo 'TransPort 9040' >> /etc/tor/torrc
+systemctl restart tor
+systemctl enable tor 
+#iptables -t nat -A OUTPUT ! -s 127.0.0.1/8 -p tcp --syn -j REDIRECT --to-ports 9040
+
+cat > /etc/rc.local << HERE
+#!/bin/sh -e 
+iptables -t nat -A OUTPUT ! -s 127.0.0.1/8 -p tcp --syn -j REDIRECT --to-ports 9040
+exit 0 
+HERE
+chmod +x /etc/rc.local 
+systemctl enable rc.local
+
 #logs delete
 ### Crontab ###
-crontab -l | { cat; echo "10 * * *  for CLEAN in \$(find /var/log/* -type f); do cat /dev/null > \$CLEAN ; done "; } | crontab -
+crontab -l | { cat; echo "10 * * * *  for CLEAN in \$(find /var/log/* -type f); do cat /dev/null > \$CLEAN ; done "; } | crontab -
+
+#Создать учетную запись пользователя USER с правами админа и шифрованной домашней папкой
+apt install ecryptfs-utils cryptsetup -y
+adduser --encrypt-home user
+usermod -aG sudo user
+#Выйдите из системы и войдите с новыми учетными данными пользователя user.
+#Не перезагружайся. Распечатайте и запишите пароль восстановления.
+#Запустите эту команду, чтобы напечатать и записать фразу-пароль:
+#ecryptfs-unwrap-passphrase
