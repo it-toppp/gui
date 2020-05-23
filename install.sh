@@ -8,9 +8,6 @@ DB_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ADMIN_PASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 docker-compose --file /opt/matrix/docker-compose.yml down &> /dev/null
 
-res1=$(ss -lnt | awk '$1 == "LISTEN" && $4 ~ ".80"');
-if [ "$res1" != '' ]; then echo "port 80 is in use, installation canceled" &&  exit 1
-fi
 res2=$(ss -lnt | awk '$1 == "LISTEN" && $4 ~ ".443"');
 if [ "$res1" != '' ]; then echo "port 443 is in use, installation canceled" &&  exit 1
 fi
