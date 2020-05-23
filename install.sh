@@ -101,8 +101,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.port=80
-      - traefik.entryPoint=https
-      - traefik.backend=admin
+#      - traefik.entryPoint=https
+#      - traefik.backend=admin
       - traefik.frontend.rule=Host:$SYNAPSE_DOMAIN; PathPrefixStrip:/admin/
   
   riotweb:
@@ -115,8 +115,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.port=80
-      - traefik.entryPoint=https
-      - traefik.backend=riotweb
+#      - traefik.entryPoint=https
+#      - traefik.backend=riotweb
       - traefik.frontend.rule=Host:$SYNAPSE_DOMAIN; PathPrefixStrip:/riot/
 
   synapse:
@@ -135,7 +135,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.port=8008
-      - traefik.entryPoint=https
+#      - traefik.entryPoint=https
 #      - traefik.backend=synapse
       - traefik.frontend.rule=Host:$SYNAPSE_DOMAIN
   
