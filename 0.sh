@@ -74,6 +74,14 @@ echo "/swapfile   none    swap    sw    0   0" | tee /etc/fstab -a
 #systemctl restart sshd
 
 #настройка фаервола. Запрещаем все входящие кроме RDP и SSH
+
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
+sysctl -p
+ufw allow 22
+ufw allow 3390
+ufw enable
+
 apt-get install -y fail2ban
 
 cat > /etc/fail2ban/jail.local << HERE
@@ -86,28 +94,44 @@ maxretry = 3
 HERE
 
 systemctl enable fail2ban && systemctl restart fail2ban
-echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
-echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
-sysctl -p
-ufw allow 22
-ufw allow 3390
-ufw enable
 
 #TOR - Весь трафик  перенаправляется на Tor
 
-apt install tor -y
-echo 'TransPort 9040' >> /etc/tor/torrc
-systemctl restart tor
-systemctl enable tor 
-#iptables -t nat -A OUTPUT ! -s 127.0.0.1/8 -p tcp --syn -j REDIRECT --to-ports 9040
+apt install tor iptables-persistent -y
 
-cat > /etc/rc.local << HERE
-#!/bin/sh -e 
-iptables -t nat -A OUTPUT ! -s 127.0.0.1/8 -p tcp --syn -j REDIRECT --to-ports 9040
-exit 0 
+cat > /etc/tor/torrc << HERE
+VirtualAddrNetwork 10.192.0.0/10
+TransPort 9040
+ExcludeExitNodes{am},{az},{kg},{ru},{ua},{by},{md},{uz},{sy},{tm},{kz},{tj},{ve}
+AutomapHostsOnResolve 1
+DNSPort 5353
 HERE
-chmod +x /etc/rc.local 
-systemctl enable rc.local
+systemctl restart tor && systemctl enable tor 
+
+# ignored location
+IGN="192.168.1.0/24 192.168.0.0/24"
+# Enter your tor UID
+UID=$(id -u debian-tor)
+iptables -F
+iptables -t nat -F
+iptables -t nat -A OUTPUT -m owner --uid-owner $UID -j RETURN
+iptables -t nat -A OUTPUT -p udp --dport 53 -j REDIRECT --to-ports 5353
+for NET in $IGN 127.0.0.0/9 127.128.0.0/10; do
+ iptables -t nat -A OUTPUT -d $NET -j RETURN
+done
+iptables -t nat -A OUTPUT -p tcp --syn -j REDIRECT --to-ports 9040
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+for NET in $IGN 127.0.0.0/8; do
+iptables -A OUTPUT -d $NET -j ACCEPT
+done
+iptables -A OUTPUT -m owner --uid-owner $UID -j ACCEPT
+iptables -A OUTPUT -j REJECT
+
+iptables-save > /etc/iptables/rules.v4
+netfilter-persistent start && netfilter-persistent save
+ufw enable
+ufw allow 22
+ufw allow 3390
 
 #logs delete
 ### Crontab ###
