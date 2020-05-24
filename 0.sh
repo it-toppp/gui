@@ -130,8 +130,8 @@ done
 iptables -A OUTPUT -m owner --uid-owner $UID_TOR -j ACCEPT
 iptables -A OUTPUT -j REJECT
 ### *filter INPUT
-iptables -A INPUT -i $_out_if -p tcp --dport 22 -m state --state NEW -j ACCEPT
-iptables -A INPUT -i $_out_if -p tcp --dport 3390 -m state --state NEW -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
+iptables -A INPUT -p tcp --dport 3390 -m state --state NEW -j ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
 
