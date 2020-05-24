@@ -111,9 +111,13 @@ IGN="192.168.1.0/24 192.168.0.0/24"
 UID_TOR=$(id -u debian-tor)
 iptables -F
 iptables -t nat -F
-#iptables -P INPUT DROP
+iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 #iptables -P OUTPUT ACCEPT
+### *filter INPUT
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
+iptables -A INPUT -p tcp --dport 3390 -m state --state NEW -j ACCEPT
+### *filter OUTPUT
 iptables -t nat -A OUTPUT -m owner --uid-owner $UID_TOR -j RETURN
 iptables -t nat -A OUTPUT -p udp --dport 53 -j REDIRECT --to-ports 5353
 for NET in $IGN 127.0.0.0/9 127.128.0.0/10; do
@@ -126,13 +130,8 @@ iptables -A OUTPUT -d $NET -j ACCEPT
 done
 iptables -A OUTPUT -m owner --uid-owner $UID_TOR -j ACCEPT
 iptables -A OUTPUT -j REJECT
-
-
 iptables-save > /etc/iptables/rules.v4
 netfilter-persistent start && netfilter-persistent save
-#ufw enable
-#ufw allow 22
-#ufw allow 3390
 
 #logs delete
 ### Crontab ###
