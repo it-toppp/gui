@@ -111,7 +111,7 @@ IGN="192.168.1.0/24 192.168.0.0/24"
 UID_TOR=$(id -u debian-tor)
 iptables -F
 iptables -t nat -F
-iptables -P INPUT DROP
+#iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 #iptables -P OUTPUT ACCEPT
 iptables -t nat -A OUTPUT -m owner --uid-owner $UID_TOR -j RETURN
