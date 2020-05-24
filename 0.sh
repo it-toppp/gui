@@ -111,13 +111,13 @@ systemctl restart tor && systemctl enable tor
 # ignored location
 IGN="192.168.1.0/24 192.168.0.0/24"
 # Enter your tor UID
-UID=$(id -u debian-tor)
+UID_TOR=$(id -u debian-tor)
 iptables -F
 iptables -t nat -F
 iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 #iptables -P OUTPUT ACCEPT
-iptables -t nat -A OUTPUT -m owner --uid-owner $UID -j RETURN
+iptables -t nat -A OUTPUT -m owner --uid-owner $UID_TOR -j RETURN
 iptables -t nat -A OUTPUT -p udp --dport 53 -j REDIRECT --to-ports 5353
 for NET in $IGN 127.0.0.0/9 127.128.0.0/10; do
  iptables -t nat -A OUTPUT -d $NET -j RETURN
@@ -127,7 +127,7 @@ iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 for NET in $IGN 127.0.0.0/8; do
 iptables -A OUTPUT -d $NET -j ACCEPT
 done
-iptables -A OUTPUT -m owner --uid-owner $UID -j ACCEPT
+iptables -A OUTPUT -m owner --uid-owner $UID_TOR -j ACCEPT
 iptables -A OUTPUT -j REJECT
 ### *filter INPUT
 iptables -A INPUT -i $_out_if -p tcp --dport 22 -m state --state NEW -j ACCEPT
