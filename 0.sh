@@ -82,7 +82,7 @@ ufw allow 22
 ufw allow 3390
 ufw enable
 
-apt-get install -y fail2ban
+apt-get install fail2ban ecryptfs-utils cryptsetup -y
 
 cat > /etc/fail2ban/jail.local << HERE
 [sshd]
@@ -99,7 +99,7 @@ systemctl enable fail2ban && systemctl restart fail2ban
 
 apt install tor iptables-persistent -y
 
-cat > /etc/tor/torrc << HERE
+cat >> /etc/tor/torrc << HERE
 VirtualAddrNetwork 10.192.0.0/10
 TransPort 9040
 ExcludeExitNodes{am},{az},{kg},{ru},{ua},{by},{md},{uz},{sy},{tm},{kz},{tj},{ve}
@@ -146,7 +146,6 @@ netfilter-persistent start && netfilter-persistent save
 crontab -l | { cat; echo "10 * * * *  for CLEAN in \$(find /var/log/* -type f); do cat /dev/null > \$CLEAN ; done "; } | crontab -
 
 #Создать учетную запись пользователя USER с правами админа и шифрованной домашней папкой
-apt install ecryptfs-utils cryptsetup -y
 adduser --encrypt-home user
 usermod -aG sudo user
 #Выйдите из системы и войдите с новыми учетными данными пользователя user.
