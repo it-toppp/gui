@@ -78,9 +78,6 @@ echo "/swapfile   none    swap    sw    0   0" | tee /etc/fstab -a
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
 sysctl -p
-ufw allow 22
-ufw allow 3390
-ufw enable
 
 apt-get install fail2ban ecryptfs-utils cryptsetup -y
 
@@ -102,7 +99,7 @@ apt install tor iptables-persistent -y
 cat >> /etc/tor/torrc << HERE
 VirtualAddrNetwork 10.192.0.0/10
 TransPort 9040
-ExcludeExitNodes{am},{az},{kg},{ru},{ua},{by},{md},{uz},{sy},{tm},{kz},{tj},{ve}
+ExcludeExitNodes {am},{az},{kg},{ru},{ua},{by},{md},{uz},{sy},{tm},{kz},{tj},{ve}
 AutomapHostsOnResolve 1
 DNSPort 5353
 HERE
@@ -129,11 +126,7 @@ iptables -A OUTPUT -d $NET -j ACCEPT
 done
 iptables -A OUTPUT -m owner --uid-owner $UID_TOR -j ACCEPT
 iptables -A OUTPUT -j REJECT
-### *filter INPUT
-iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
-iptables -A INPUT -p tcp --dport 3390 -m state --state NEW -j ACCEPT
-iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT
-iptables -A INPUT -i lo -j ACCEPT
+
 
 iptables-save > /etc/iptables/rules.v4
 netfilter-persistent start && netfilter-persistent save
