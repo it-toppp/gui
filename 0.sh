@@ -117,6 +117,10 @@ iptables -P FORWARD ACCEPT
 ### *filter INPUT
 iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
 iptables -A INPUT -p tcp --dport 3390 -m state --state NEW -j ACCEPT
+# разрешаем установленные подключения
+iptables -A INPUT -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
 ### *filter OUTPUT
 iptables -t nat -A OUTPUT -m owner --uid-owner $UID_TOR -j RETURN
 iptables -t nat -A OUTPUT -p udp --dport 53 -j REDIRECT --to-ports 5353
