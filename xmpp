@@ -87,6 +87,6 @@ HERE
 
 openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newkey rsa:2048 -keyout "/etc/prosody/certs/host.key"
 
-systemctl prosody restart
+systemctl restart prosody
 #user create
-prosodyctl register имя_пользоавтеля $MYONION пароль_пользователя
+prosodyctl register admin $MYONION 
