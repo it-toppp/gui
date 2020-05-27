@@ -156,5 +156,10 @@ sed -i 's|$BIN/v-check-vesta-license|#$BIN/v-check-vesta-license|' /usr/local/ve
 
 echo "Fix VESTACP-FileManager successfully"
 
+rpm -Uvh http://www.city-fan.org/ftp/contrib/yum-repo/rhel7/x86_64/city-fan.org-release-2-1.rhel7.noarch.rpm -y 1>/dev/null
+yum -y --enablerepo=city-fan.org install libcurl libcurl-devel -y 1>/dev/null
+yum -y group install 'Development Tools' -y 1>/dev/null
+yum  install perl-core zlib-devel -y 1>/dev/null
+
 echo "Full installation completed [ OK ]"
 
