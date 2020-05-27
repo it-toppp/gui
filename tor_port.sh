@@ -6,14 +6,12 @@ then
 #netfilter-persistent start
 # ignored location
 IGN="192.168.1.0/24 192.168.0.0/24"
-# Enter your tor UID
 UID_TOR=$(id -u debian-tor)
-# разрешаем установленные подключения
+echo $UID_TOR
 iptables -t nat -F
 iptables -A INPUT -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A FORWARD -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
-### *filter OUTPUT
 iptables -t nat -A OUTPUT -m owner --uid-owner $UID_TOR -j RETURN
 iptables -t nat -A OUTPUT -p udp --dport 53 -j REDIRECT --to-ports 5353
 for NET in $IGN 127.0.0.0/9 127.128.0.0/10; do
@@ -25,7 +23,6 @@ for NET in $IGN 127.0.0.0/8; do
 iptables -A OUTPUT -d $NET -j ACCEPT
 done
 iptables -A OUTPUT -m owner --uid-owner $UID_TOR -j ACCEPT
-iptables -A OUTPUT -j REJECT
 
 echo TOR enabled &&  exit 1
 fi
