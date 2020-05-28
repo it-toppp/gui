@@ -31,7 +31,7 @@ modules_enabled = {
 		"saslauth"; -- Authentication for clients and servers. Recommended if you want to log in.
 		"tls"; -- Add support for secure TLS on c2s/s2s connections
 		-- "dialback"; -- s2s dialback support
-		-- "disco"; -- Service discovery
+		"disco"; -- Service discovery
 
 	-- Not essential, but recommended
 		"private"; -- Private XML storage (for room bookmarks, etc.)
@@ -73,7 +73,7 @@ modules_disabled = {
 	"s2s"; -- Handle server-to-server connections
 };
 
-allow_registration = true;
+allow_registration = false;
 
 daemonize = true;
 
@@ -103,7 +103,7 @@ Include "conf.d/*.cfg.lua"
 HERE
 
 echo  "create crt for domain $MYONION"
-openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newkey rsa:2048 -keyout "/etc/prosody/certs/host.key"
+openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newkey rsa:2048 -keyout "/etc/prosody/certs/host.key" -subj "/C=GB/ST=London/L=London/O=Global Security/OU=IT Department/CN=$MYONION"
 chmod 644 /etc/prosody/certs/*
 systemctl restart prosody
 #user create
