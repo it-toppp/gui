@@ -18,6 +18,7 @@ apt install tor prosody -y
 
 printf "HiddenServiceDir /var/lib/tor/jabber\nHiddenServicePort 5222 127.0.0.1:5222\n" | sudo tee /etc/tor/torrc
 systemctl  restart tor
+sleep 5
 MYONION=$(cat /var/lib/tor/jabber/hostname)
 
 cat >/etc/prosody/prosody.cfg.lua << HERE 
@@ -100,13 +101,14 @@ VirtualHost "$MYONION"
 
 Include "conf.d/*.cfg.lua"
 HERE
-echo  create crt for domain $MYONION
+
+echo  "create crt for domain $MYONION"
 openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newkey rsa:2048 -keyout "/etc/prosody/certs/host.key"
 chmod 644 /etc/prosody/certs/*
 systemctl restart prosody
 #user create
-prosodyctl register admin $MYONION 
 echo  create accaunt admin@$MYONION
+prosodyctl register admin $MYONION 
 ufw allow 22
 ufw allow 9050
 ufw enable
