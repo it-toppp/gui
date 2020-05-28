@@ -14,10 +14,6 @@ logpath = /var/log/auth.log
 maxretry = 3
 HERE
 
-ufw allow 22
-ufw allow 9050
-ufw enable
-
 apt install tor prosody -y
 
 printf "HiddenServiceDir /var/lib/tor/jabber\nHiddenServicePort 5222 127.0.0.1:5222\n" | sudo tee /etc/tor/torrc
@@ -106,10 +102,11 @@ Include "conf.d/*.cfg.lua"
 HERE
 
 openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newkey rsa:2048 -keyout "/etc/prosody/certs/host.key"
-
+chmod 644 /etc/prosody/certs/*
 systemctl restart prosody
 #user create
 prosodyctl register admin $MYONION 
+echo  create accaunt admin@$MYONION
 ufw allow 22
 ufw allow 9050
 ufw enable
