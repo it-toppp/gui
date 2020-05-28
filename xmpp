@@ -1,4 +1,24 @@
-apt install tor prosody
+
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+echo "net.ipv4.icmp_echo_ignore_all = 1" >> /etc/sysctl.conf
+sysctl -p
+
+apt-get install fail2ban -y
+
+cat > /etc/fail2ban/jail.local << HERE
+[sshd]
+enabled = true
+port = 22
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+HERE
+
+ufw allow 22
+ufw allow 9050
+ufw enable
+
+apt install tor prosody -y
 
 printf "HiddenServiceDir /var/lib/tor/jabber\nHiddenServicePort 5222 127.0.0.1:5222\n" | sudo tee /etc/tor/torrc
 systemctl  restart tor
@@ -90,3 +110,6 @@ openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newk
 systemctl restart prosody
 #user create
 prosodyctl register admin $MYONION 
+ufw allow 22
+ufw allow 9050
+ufw enable
