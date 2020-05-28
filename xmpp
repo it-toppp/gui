@@ -100,7 +100,7 @@ VirtualHost "$MYONION"
 
 Include "conf.d/*.cfg.lua"
 HERE
-
+echo  create crt for domain $MYONION
 openssl req -new -x509 -days 365 -nodes -out "/etc/prosody/certs/host.crt" -newkey rsa:2048 -keyout "/etc/prosody/certs/host.key"
 chmod 644 /etc/prosody/certs/*
 systemctl restart prosody
