@@ -159,7 +159,7 @@ echo "Fix VESTACP-FileManager successfully"
 cat >/etc/yum.repos.d/city-fan.repo << HERE 
 [CityFan]
 name=City Fan Repo
-baseurl=http://www.city-fan.org/ftp/contrib/yum-repo/rhel$releasever/$basearch/
+baseurl=http://www.city-fan.org/ftp/contrib/yum-repo/rhel\$releasever/\$basearch/
 enabled=1
 gpgcheck=0
 HERE
