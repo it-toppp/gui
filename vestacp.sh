@@ -168,3 +168,53 @@ yum install curl -y 1>/dev/null
 
 echo "Full installation completed [ OK ]"
 
+
+DOMAIN = $(ls /home/admin/web/)
+echo "Which script use?"
+echo "   1) PLAYTUBE"
+echo "   2) WOWONDER"
+echo "   3) DEEPSOUND"
+echo "   4) QUICKDATE"
+echo "   5) PIXELPHOTO"
+    read -p "Protocol [1]: " script
+    until [[ -z "$script" || "$script" =~ ^[12345]$ ]]; do
+echo "$script: invalid selection."
+read -p "Script [1]: " script
+    done
+    case "$script" in
+1|"")
+cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/playtube.zip
+rm -Rfv robots.txt index.html && unzip playtube.zip && rm -Rfv __MACOSX playtube.zip
+chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+echo "  installation complete"
+;;
+2)
+cd /home/admin/web/$DOMAIN/public_html/
+wget http://ss.ultahost.com/wowonder.zip && rm -Rfv robots.txt index.html && unzip wowonder.zip
+rm -Rfv __MACOSX wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin /home/admin/web
+echo "  installation complete"
+;;
+3)
+cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/deepsound.zip
+rm -Rfv robots.txt index.html && unzip deepsound.zip && rm -Rfv __MACOSX deepsound.zip  
+chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+echo "  installation complete"
+;;
+4)
+cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/quickdate.zip 
+rm -Rfv robots.txt index.html unzip quickdate.zip && rm -Rfv __MACOSX quickdate.zip 
+chmod -R 777 upload cache config.php ffmpeg/ffmpeg 
+chown -R admin:admin /home/admin/web
+echo "  installation complete"
+;;
+5)
+cd /home/admin/web/$DOMAIN/public_html/
+wget http://ss.ultahost.com/pixelphoto.zip
+rm -Rfv robots.txt index.html && unzip pixelphoto.zip && rm -Rfv __MACOSX pixelphoto.zip 
+chmod -R 777 config.php sys/ffmpeg/ffmpeg ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+echo "  installation complete"
+;;
+esac
+
+
+
