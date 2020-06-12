@@ -189,7 +189,7 @@ yum install curl -y 1>/dev/null
 echo "Full installation completed [ OK ]"
 
 
-DOMAIN = $(ls /home/admin/web/)
+DOMAIN=$(ls /home/admin/web)
 echo "Which script use?"
 echo "   1) PLAYTUBE"
 echo "   2) WOWONDER"
