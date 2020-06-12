@@ -190,14 +190,17 @@ echo "Full installation completed [ OK ]"
 
 
 DOMAIN=$(ls /home/admin/web)
+PASSWDDB=$(openssl rand -base64 12)
+
 echo "Which script use?"
 echo "   1) PLAYTUBE"
 echo "   2) WOWONDER"
 echo "   3) DEEPSOUND"
 echo "   4) QUICKDATE"
 echo "   5) PIXELPHOTO"
+echo "   6) OTHER SCRIPT"
     read -p "Protocol [1]: " script
-    until [[ -z "$script" || "$script" =~ ^[12345]$ ]]; do
+    until [[ -z "$script" || "$script" =~ ^[123456]$ ]]; do
 echo "$script: invalid selection."
 read -p "Script [1]: " script
     done
@@ -205,13 +208,19 @@ read -p "Script [1]: " script
 1|"")
 cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/playtube.zip
 rm -Rfv robots.txt index.html && unzip playtube.zip && rm -Rfv __MACOSX playtube.zip
-chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg && 
+sed -i 's|domain.com|$DOMAIN|' .htacces
+#/usr/local/vesta/bin/v-add-database admin playtube playtube $PASSWDDB mysql
+#mysql -uadmin_playtube -p$PASSWDDB admin_playtube < playtube.sql
+chown -R admin:admin /home/admin/web
+
 echo "  installation complete"
 ;;
 2)
 cd /home/admin/web/$DOMAIN/public_html/
 wget http://ss.ultahost.com/wowonder.zip && rm -Rfv robots.txt index.html && unzip wowonder.zip
 rm -Rfv __MACOSX wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin /home/admin/web
+sed -i 's|domain.com|$DOMAIN|' .htacces
 echo "  installation complete"
 ;;
 3)
@@ -225,6 +234,7 @@ cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/quickdate
 rm -Rfv robots.txt index.html unzip quickdate.zip && rm -Rfv __MACOSX quickdate.zip 
 chmod -R 777 upload cache config.php ffmpeg/ffmpeg 
 chown -R admin:admin /home/admin/web
+sed -i 's|domain.com|$DOMAIN|' .htacces
 echo "  installation complete"
 ;;
 5)
@@ -232,7 +242,11 @@ cd /home/admin/web/$DOMAIN/public_html/
 wget http://ss.ultahost.com/pixelphoto.zip
 rm -Rfv robots.txt index.html && unzip pixelphoto.zip && rm -Rfv __MACOSX pixelphoto.zip 
 chmod -R 777 config.php sys/ffmpeg/ffmpeg ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+sed -i 's|domain.com|$DOMAIN|' .htacces
 echo "  installation complete"
+;;
+6)
+echo "  OK"
 ;;
 esac
 
