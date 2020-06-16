@@ -52,6 +52,10 @@ HERE
 systemctl restart mariadb 1>/dev/null
 echo "Fix MYSQL successfully"
 
+yum -y install -y gcc-c++ make
+curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
+yum -y install nodejs
+
 yum install ffmpeg ffmpeg-devel nano mc htop atop iftop lsof bzip2 traceroute gdisk php74-php-curl php74-php-mbstring  php74-php-xml php74-php-gd php74-php-fileinfo php74-php-exif php74-php-intl php74-php-zip php74-php-mysqli php74-php-curl php74-php-ctype php74-php-openssl php74-php-pdo php74-php-opcache php74-php-simplexml php74-php-mysql php72-php-mbstring php72-php-xml php72-php-gd php72-php-fileinfo php72-php-intl php72-php-zip php72-php-mysqli php72-php-curl php72-php-ctype php72-php-openssl php72-php-pdo php72-php-exif php72-php-opcache php72-php-simplexml php72-php-mysql php72-php-curl php74-php-xdebug php73-php-xdebug php72-php-xdebug php70-php-xdebug php72-php-soap php73-php-soap php74-php-soap -y &> /dev/null
 
 wget https://raw.githubusercontent.com/it-toppp/sk-php-selector/master/sk-php-selector2.sh &> /dev/null
