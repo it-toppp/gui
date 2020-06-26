@@ -212,7 +212,7 @@ read -p "Script [1]: " script
 cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/playtube.zip
 rm -Rfv robots.txt index.html && unzip playtube.zip && rm -Rfv __MACOSX playtube.zip
 chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg && 
-sed -i 's|domain.com|'$DOMAIN'|' .htaccess
+sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 #/usr/local/vesta/bin/v-add-database admin playtube playtube $PASSWDDB mysql
 #mysql -uadmin_playtube -p$PASSWDDB admin_playtube < playtube.sql
 chown -R admin:admin /home/admin/web
@@ -223,7 +223,7 @@ echo "  installation complete"
 cd /home/admin/web/$DOMAIN/public_html/
 wget http://ss.ultahost.com/wowonder.zip && rm -Rfv robots.txt index.html && unzip wowonder.zip
 rm -Rfv __MACOSX wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin /home/admin/web
-sed -i 's|domain.com|'$DOMAIN'|' .htaccess
+sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 3)
@@ -237,15 +237,15 @@ cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/quickdate
 rm -Rfv robots.txt index.html unzip quickdate.zip && rm -Rfv __MACOSX quickdate.zip 
 chmod -R 777 upload cache config.php ffmpeg/ffmpeg 
 chown -R admin:admin /home/admin/web
-sed -i 's|domain.com|'$DOMAIN'|' .htaccess
+sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 5)
 cd /home/admin/web/$DOMAIN/public_html/
 wget http://ss.ultahost.com/pixelphoto.zip
 rm -Rfv robots.txt index.html && unzip pixelphoto.zip && rm -Rfv __MACOSX pixelphoto.zip 
-chmod -R 777 config.php sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
-sed -i 's|domain.com|'$DOMAIN'|' .htaccess
+chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 6)
