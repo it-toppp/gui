@@ -245,7 +245,7 @@ echo "  installation complete"
 cd /home/admin/web/$DOMAIN/public_html/
 wget http://ss.ultahost.com/pixelphoto.zip
 rm -Rfv robots.txt index.html && unzip pixelphoto.zip && rm -Rfv __MACOSX pixelphoto.zip 
-chmod -R 777 config.php sys/ffmpeg/ffmpeg ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+chmod -R 777 config.php sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
 sed -i 's|domain.com|'$DOMAIN'|' .htaccess
 echo "  installation complete"
 ;;
