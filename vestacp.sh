@@ -84,9 +84,6 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
-#[Zend Modules]
-#zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.4.so
-#zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.4_ts.so
 HERE
 
 cat >>/etc/opt/remi/php70/php.ini << HERE 
