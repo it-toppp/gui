@@ -26,6 +26,13 @@ systemctl start mariadb 1>/dev/null
 systemctl enable mariadb &> /dev/null
 mysql_upgrade 1>/dev/null
 
+#PMA
+wget https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip
+unzip phpMyAdmin-4.9.5-all-languages.zip
+rm -Rfv phpMyAdmin-4.9.5-all-languages.zip
+rm -Rfv /usr/share/phpMyAdmin
+mv phpMyAdmin-4.9.5-all-languages /usr/share/phpMyAdmin
+
 cat >/etc/my.cnf << HERE 
 [mysqld]
 datadir=/var/lib/mysql
@@ -153,6 +160,7 @@ HERE
 systemctl restart httpd 1>/dev/null
 echo "Fix PHP and HTTPD successfully"
 
+echo "Fix PMA successfully"
 #nginx
 sed -i 's|client_max_body_size            256m|client_max_body_size            2048m|' /etc/nginx/nginx.conf
 sed -i 's|worker_connections  1024;|worker_connections  2024;|' /etc/nginx/nginx.conf
