@@ -27,11 +27,11 @@ systemctl enable mariadb &> /dev/null
 mysql_upgrade 1>/dev/null
 
 #PMA
-wget https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip
-unzip phpMyAdmin-4.9.5-all-languages.zip
-rm -Rfv phpMyAdmin-4.9.5-all-languages.zip
-rm -Rfv /usr/share/phpMyAdmin
-mv phpMyAdmin-4.9.5-all-languages /usr/share/phpMyAdmin
+#wget https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip
+#unzip phpMyAdmin-4.9.5-all-languages.zip
+#rm -Rfv phpMyAdmin-4.9.5-all-languages.zip
+#rm -Rfv /usr/share/phpMyAdmin
+#mv phpMyAdmin-4.9.5-all-languages /usr/share/phpMyAdmin
 
 cat >/etc/my.cnf << HERE 
 [mysqld]
@@ -67,6 +67,7 @@ yum install ffmpeg ffmpeg-devel nano mc htop atop iftop lsof bzip2 traceroute gd
 
 wget https://raw.githubusercontent.com/it-toppp/sk-php-selector/master/sk-php-selector2.sh &> /dev/null
 chmod +x sk-php-selector2.sh && bash sk-php-selector2.sh php70 php71 php72 php73 &> /dev/null
+mv /etc/httpd/conf.modules.d/15-php73-php.conf /etc/httpd/conf.modules.d/14-php73-php.conf 
 
 wget http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 tar zxf ioncube_loaders_lin_x86-64.tar.gz 
