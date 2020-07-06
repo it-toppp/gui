@@ -59,9 +59,9 @@ HERE
 systemctl restart mariadb 1>/dev/null
 echo "Fix MYSQL successfully"
 
-yum -y install -y gcc-c++ make
-curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
-yum -y install nodejs
+#yum -y install -y gcc-c++ make
+#curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
+#yum -y install nodejs
 yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
 yum install ffmpeg ffmpeg-devel nano git mc htop atop iftop lsof bzip2 traceroute gdisk -y &> /dev/null
 yum install php74-php-curl php74-php-mbstring  php74-php-xml php74-php-gd php74-php-fileinfo php74-php-exif php74-php-intl php74-php-zip php74-php-mysqli php74-php-curl php74-php-ctype php74-php-openssl php74-php-pdo php74-php-opcache php74-php-simplexml php74-php-mysql php74-php-soap php74-php-xdebug -y &> /dev/null
