@@ -225,7 +225,7 @@ read -p "Script [1]: " script
 1|"")
 cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/playtube.zip
 rm -Rfv robots.txt index.html && unzip playtube.zip && rm -Rfv __MACOSX playtube.zip
-chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg && 
+chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json && 
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 #/usr/local/vesta/bin/v-add-database admin playtube playtube $PASSWDDB mysql
 #mysql -uadmin_playtube -p$PASSWDDB admin_playtube < playtube.sql
