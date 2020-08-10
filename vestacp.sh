@@ -283,9 +283,23 @@ Vesta Control Panel
 echo -e "Congratulations, you have just successfully installed \
 Vesta Control Panel
 
-    https://$DOMAIN:8083
-    username: admin
-    password: $PASSWD
+https://$DOMAIN:8083
+username: admin
+password: $PASSWD
+    
+Filemanager:
+https://$DOMAIN:8083/list/directory/?dir_a=/home/admin/web/$DOMAIN/public_html&dir_b=/home/admin
+
+FTP:
+host: $DOMAIN
+port: 21
+username: admin
+password: $PASSWD
+
+phpMyAdmin:
+https://$DOMAIN/phpmyadmin
+username = root
+grep pass /root/.my.cnf
 "
 
 
