@@ -1,8 +1,11 @@
 #!/bin/bash
 
-rm -Rfv /etc/yum.repos.d/CentOS-Vault.repo &> /dev/null
+PASSWDDB=$(openssl rand -base64 12)
+DOMAIN=$1
 
-curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi yes --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no
+rm -Rfv /etc/yum.repos.d/CentOS-Vault.repo &> /dev/null
+hostnamectl set-hostname $DOMAIN
+curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi yes --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no -hostname $DOMAIN --email admin@$DOMAIN --password $PASSWDDB
 
 echo Installation will take about 5 minutes ...
 
@@ -207,7 +210,6 @@ echo "Full installation completed [ OK ]"
 
 
 DOMAIN=$(ls /home/admin/web)
-PASSWDDB=$(openssl rand -base64 12)
 
 echo "Which script use?"
 echo "   1) PLAYTUBE"
