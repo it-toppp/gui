@@ -211,8 +211,11 @@ systemctl restart exim
 
 echo "Full installation completed [ OK ]"
 
+if [ ! -f "/home/$user/conf/web/ssl.$domain.pem" ]; then
+    /usr/local/vesta/binv-add-letsencrypt-domain admin "$DOMAIN" "" "yes"
+fi
 
-DOMAIN=$(ls /home/admin/web)
+/usr/local/vesta/binv-add-database admin def def $PASSWD mysql
 
 echo "Which script use?"
 echo "   1) PLAYTUBE"
@@ -267,6 +270,23 @@ echo "  installation complete"
 echo "  OK"
 ;;
 esac
+
+# Sending notification to admin email
+echo -e "Congratulations, you have just successfully installed \
+Vesta Control Panel
+
+    https://$DOMAIN:8083
+    username: admin
+    password: $PASSWD
+    
+# Sending notification to admin email
+echo -e "Congratulations, you have just successfully installed \
+Vesta Control Panel
+
+    https://$DOMAIN:8083
+    username: admin
+    password: $PASSWD
+"
 
 
 
