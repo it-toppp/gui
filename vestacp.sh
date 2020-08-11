@@ -2,6 +2,8 @@
 
 PASSWD=$(openssl rand -base64 12)
 DOMAIN=$1
+IP=$(curl ifconfig.me)
+DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
 rm -Rfv /etc/yum.repos.d/CentOS-Vault.repo &> /dev/null
 echo $DOMAIN $PASSWDD
@@ -209,12 +211,16 @@ wget https://ca1.dynanode.net/exim-4.93-3.el7.x86_64.rpm
 rpm -Uvh --oldpackage exim-4.93-3.el7.x86_64.rpm
 systemctl restart exim
 
+#SWAP
+
+wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
+
 echo "Full installation completed [ OK ]"
 
-if [ ! -f "/home/$user/conf/web/ssl.$domain.pem" ]; then
-    /usr/local/vesta/binv-add-letsencrypt-domain admin "$DOMAIN" "" "yes"
+#SITE
+if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
+   /usr/local/vesta/binv-add-letsencrypt-domain admin "$DOMAIN" "" "yes"
 fi
-
 /usr/local/vesta/binv-add-database admin def def $PASSWD mysql
 
 echo "Which script use?"
