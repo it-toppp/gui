@@ -217,10 +217,10 @@ wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && s
 echo "Full installation completed [ OK ]"
 
 #SITE
-#if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
-#   /usr/local/vesta/bin/v-add-letsencrypt-domain admin "$DOMAIN" "" "yes"
-#fi
-#/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
+if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
+/usr/local/vesta/bin/v-add-letsencrypt-domain admin "$DOMAIN" "" "yes"
+fi
+/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
 
 echo "Which script use?"
 echo "   1) PLAYTUBE"
@@ -278,12 +278,15 @@ esac
 
 # Sending notification to admin email
 tmpfile=$(mktemp -p /tmp)
-echo -e "Congratulations, you have just successfully installed \
-Vesta Control Panel
+
+echo '======================================================='
+echo -e "Installation is complete:
+
+Vesta Control Panel:
     https://$DOMAIN:8083
     username: admin
-    password: $PASSWD
- 
+    password: PASSWD
+
 Filemanager:
    https://$DOMAIN:8083/list/directory/?dir_a=/home/admin/web/$DOMAIN/public_html&dir_b=/home/admin
 
@@ -291,14 +294,13 @@ FTP:
    host: $DOMAIN
    port: 21
    username: admin
-   password: $PASSWD
+   password: PASSWD
 
 phpMyAdmin:
    https://$DOMAIN/phpmyadmin
    username = root
-   grep pass /root/.my.cnf
-" > $tmpfile
-# Congrats
+   $(grep pass /root/.my.cnf)
+"
 echo '======================================================='
 cat $tmpfile
 
