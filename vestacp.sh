@@ -218,7 +218,7 @@ echo "Full installation completed [ OK ]"
 
 #SITE
 if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
-/usr/local/vesta/bin/v-add-letsencrypt-domain admin "$DOMAIN" "" "yes"
+/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
 fi
 /usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
 
@@ -285,7 +285,7 @@ echo -e "Installation is complete:
 Vesta Control Panel:
     https://$DOMAIN:8083
     username: admin
-    password: PASSWD
+    password: $PASSWD
 
 Filemanager:
    https://$DOMAIN:8083/list/directory/?dir_a=/home/admin/web/$DOMAIN/public_html&dir_b=/home/admin
@@ -294,7 +294,7 @@ FTP:
    host: $DOMAIN
    port: 21
    username: admin
-   password: PASSWD
+   password: $PASSWD
 
 phpMyAdmin:
    https://$DOMAIN/phpmyadmin
