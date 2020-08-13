@@ -217,10 +217,10 @@ wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && s
 echo "Full installation completed [ OK ]"
 
 #SITE
-if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
-/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
-fi
-/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
+#if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
+#/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
+#fi
+#/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
 
 echo "Which script use?"
 echo "   1) PLAYTUBE"
@@ -291,13 +291,13 @@ Filemanager:
    https://$DOMAIN:8083/list/directory/?dir_a=/home/admin/web/$DOMAIN/public_html&dir_b=/home/admin
 
 FTP:
-   host: $DOMAIN
+   host: $IP
    port: 21
    username: admin
    password: $PASSWD
 
 phpMyAdmin:
-   https://$DOMAIN/phpmyadmin
+   http://$IP/phpmyadmin
    username = root
    $(grep pass /root/.my.cnf)
 "
