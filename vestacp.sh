@@ -208,10 +208,11 @@ yum install curl -y 1>/dev/null
 #EXIM
 wget https://ca1.dynanode.net/exim-4.93-3.el7.x86_64.rpm
 rpm -Uvh --oldpackage exim-4.93-3.el7.x86_64.rpm
+sed -i 's|  drop    condition     = ${if isip{$sender_helo_name}}|#  drop    condition     = ${if isip{$sender_helo_name}}|' /etc/exim/exim.conf
+sed -i 's|          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|#          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|' /etc/exim/exim.conf 
 systemctl restart exim
 
 #SWAP
-
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
 
 echo "Full installation completed [ OK ]"
