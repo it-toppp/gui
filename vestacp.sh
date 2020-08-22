@@ -236,9 +236,9 @@ read -p "Script [1]: " script
     done
     case "$script" in
 1|"")
-cd /home/admin/web/$DOMAIN/public_html/ && wget http://ss.ultahost.com/playtube.zip
-rm -Rfv robots.txt index.html && unzip playtube.zip && rm -Rfv __MACOSX playtube.zip
-chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json && 
+cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
+wget http://ss.ultahost.com/playtube.zip && unzip playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json
+rm -Rfv __MACOSX playtube.zip
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 #/usr/local/vesta/bin/v-add-database admin playtube playtube $PASSWDDB mysql
 #mysql -uadmin_playtube -p$PASSWDDB admin_playtube < playtube.sql
@@ -247,27 +247,30 @@ echo "  installation complete"
 ;;
 2)
 cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
-wget http://ss.ultahost.com/wowonder.zip  && unzip wowonder.zip && rm -Rfv __MACOSX wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin /home/admin/web
+wget http://ss.ultahost.com/wowonder.zip  && unzip wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin /home/admin/web
+rm -Rfv __MACOSX wowonder.zip &&
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 3)
 cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
-wget http://ss.ultahost.com/deepsound.zip && unzip deepsound.zip && rm -Rfv __MACOSX deepsound.zip  && chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+wget http://ss.ultahost.com/deepsound.zip && unzip deepsound.zip  && chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+rm -Rfv __MACOSX deepsound.zip
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 4)
 cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
-wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip && rm -Rfv __MACOSX quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+&& rm -Rfv __MACOSX quickdate.zip
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 5)
-cd /home/admin/web/$DOMAIN/public_html/
-wget http://ss.ultahost.com/pixelphoto.zip
-rm -Rfv robots.txt index.html && unzip pixelphoto.zip && rm -Rfv __MACOSX pixelphoto.zip 
+cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html 
+wget http://ss.ultahost.com/pixelphoto.zip && unzip pixelphoto.zip 
 chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
+rm -Rfv __MACOSX pixelphoto.zip 
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
