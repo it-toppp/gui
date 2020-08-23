@@ -249,7 +249,7 @@ echo "  installation complete"
 2)
 cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
 wget http://ss.ultahost.com/wowonder.zip  && unzip wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin /home/admin/web
-rm -Rfv __MACOSX wowonder.zip &&
+rm -Rfv __MACOSX wowonder.zip
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
@@ -263,7 +263,7 @@ echo "  installation complete"
 4)
 cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
 wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin /home/admin/web
-&& rm -Rfv __MACOSX quickdate.zip
+rm -Rfv __MACOSX quickdate.zip
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
