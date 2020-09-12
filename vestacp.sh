@@ -9,7 +9,7 @@ rm -Rfv /etc/yum.repos.d/CentOS-Vault.repo &> /dev/null
 echo $DOMAIN
 echo $PASSWDD
 hostnamectl set-hostname $DOMAIN
-curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi yes --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no --hostname $DOMAIN --password $PASSWD
+curl -O http://vestacp.com/pub/vst-install.sh && bash vst-install.sh --nginx yes --apache yes --phpfpm no --named yes --remi no --vsftpd yes --proftpd no --iptables yes --fail2ban yes --quota no --exim yes --dovecot yes --spamassassin no --clamav no --softaculous no --mysql yes --postgresql no --hostname $DOMAIN --password $PASSWD
 
 echo Installation will take about 5 minutes ...
 
