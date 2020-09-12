@@ -73,6 +73,10 @@ rpm -Uvh remi-release-7.rpm epel-release-latest-7.noarch.rpm
 
 yum -y install yum-utils
 yum-config-manager --enable remi-php74
+yum-config-manager --disable remi-php56
+yum-config-manager --disable remi-php55
+yum-config-manager --disable remi-php56-debuginfo
+yum-config-manager --disable remi-php55-debuginfo
 yum update -y
 
 yum -y install -y gcc-c++ make
