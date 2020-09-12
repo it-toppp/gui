@@ -69,7 +69,7 @@ echo "Fix MYSQL successfully"
 #REMI
 wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-rpm -Uvh remi-release-7.rpm epel-release-latest-7.noarch.rpm -y
+rpm -Uvh remi-release-7.rpm epel-release-latest-7.noarch.rpm
 
 yum -y install yum-utils
 yum-config-manager --enable remi-php74
