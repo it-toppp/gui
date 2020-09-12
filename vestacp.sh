@@ -66,6 +66,15 @@ HERE
 systemctl restart mariadb 1>/dev/null
 echo "Fix MYSQL successfully"
 
+#REMI
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+rpm -Uvh remi-release-7.rpm epel-release-latest-7.noarch.rpm -y
+
+yum -y install yum-utils
+yum-config-manager --enable remi-php74
+yum update -y
+
 yum -y install -y gcc-c++ make
 curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
 yum -y install nodejs
