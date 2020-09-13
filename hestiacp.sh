@@ -10,8 +10,15 @@ echo $PASSWDD
 hostnamectl set-hostname $DOMAIN
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh
 sudo bash hst-install.sh --apache yes --nginx yes --phpfpm yes --multiphp yes --vsftpd yes --proftpd no --named yes --mysql yes --postgresql no --exim yes --dovecot yes --clamav no --spamassassin yes --iptables yes --fail2ban yes --quota no --api yes --force no --interactive no --port 8083 --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD --lang en
+v-change-sys-hostname $DOMAIN
+v-add-letsencrypt-host
 
-echo Installation will take about 5 minutes ...
+echo Installation will take about 1 minutes ...
+
+#mysql
+sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
+systemctl restart  mysql 1>/dev/null
+echo "Fix MYSQL successfully"
 
 #PHP
 cat >> /etc/php/7.4/fpm/php.ini << HERE 
@@ -71,18 +78,16 @@ sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
-
 apt -y install ffmpeg
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y nodejs
 
-
 #EXIM
-wget https://ca1.dynanode.net/exim-4.93-3.el7.x86_64.rpm
-rpm -Uvh --oldpackage exim-4.93-3.el7.x86_64.rpm
-sed -i 's|  drop    condition     = ${if isip{$sender_helo_name}}|#  drop    condition     = ${if isip{$sender_helo_name}}|' /etc/exim/exim.conf
-sed -i 's|          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|#          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|' /etc/exim/exim.conf 
-systemctl restart exim
+#wget https://ca1.dynanode.net/exim-4.93-3.el7.x86_64.rpm
+#rpm -Uvh --oldpackage exim-4.93-3.el7.x86_64.rpm
+#sed -i 's|  drop    condition     = ${if isip{$sender_helo_name}}|#  drop    condition     = ${if isip{$sender_helo_name}}|' /etc/exim/exim.conf
+#sed -i 's|          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|#          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|' /etc/exim/exim.conf 
+#systemctl restart exim
 
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
@@ -94,6 +99,8 @@ echo "Full installation completed [ OK ]"
 #/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
 #fi
 #/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
+DB=$(echo $domain | tr -dc "a-z" | cut -c 1-5)
+v-add-database admin $DB $DB $PASSWD
 
 echo "Which script use?"
 echo "   1) PLAYTUBE"
