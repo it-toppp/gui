@@ -1,9 +1,11 @@
 #!/bin/bash
 #apt update &>/dev/null
 #apt install curl &>/dev/null
-PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= < /dev/urandom | head -c 12)
 DOMAIN=$1
+PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= < /dev/urandom | head -c 12)
+DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
+
 IP=$(wget -O - -q ifconfig.me)
 DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
@@ -164,13 +166,13 @@ Filemanager:
    https://$DOMAIN:8083/fm/#/?cd=%2Fweb%2F$DOMAIN%2Fpublic_html
    
 DB:
-   db_name: $DB
-   db_user: $DB
+   db_name: admin_$DB
+   db_user: admin_$DB
    db_pass: $PASSWD
    
 phpMyAdmin:
-   http://$IP/phpmyadmin
-   username = root
+   http://$DOMAIN/phpmyadmin
+   username= root
    $(grep pass /root/.my.cnf)
    
 FTP:
