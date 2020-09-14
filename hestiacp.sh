@@ -9,7 +9,7 @@ echo $DOMAIN
 echo $PASSWDD
 hostnamectl set-hostname $DOMAIN
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh
-sudo bash hst-install.sh --apache yes --nginx yes --phpfpm yes --multiphp yes --vsftpd yes --proftpd no --named yes --mysql yes --postgresql no --exim yes --dovecot yes --clamav no --spamassassin yes --iptables yes --fail2ban yes --quota no --api yes --force no --interactive no --port 8083 --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD --lang en
+bash hst-install.sh --apache yes --nginx yes --phpfpm yes --multiphp yes --vsftpd yes --proftpd no --named yes --mysql yes --postgresql no --exim yes --dovecot yes --clamav no --spamassassin yes --iptables yes --fail2ban yes --quota no --api yes --force no --interactive no --port 8083 --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD --lang en
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
 
