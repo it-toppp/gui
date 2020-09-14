@@ -1,12 +1,11 @@
 #!/bin/bash
-
+#apt update &>/dev/null
+#apt install curl &>/dev/null
 PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= < /dev/urandom | head -c 12)
 DOMAIN=$1
-IP=$(curl ifconfig.me)
+IP=$(wget -O - -q ifconfig.me)
 DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
-echo $DOMAIN
-echo $PASSWD
 hostnamectl set-hostname $DOMAIN
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install-debian.sh
 bash hst-install-debian.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
