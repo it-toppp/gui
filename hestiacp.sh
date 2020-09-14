@@ -161,7 +161,7 @@ Vesta Control Panel:
     username: admin
     password: $PASSWD
 Filemanager:
-   https://$DOMAIN:8083/list/directory/?dir_a=/home/admin/web/$DOMAIN/public_html&dir_b=/home/admin
+   https://$DOMAIN:8083/fm/#/?cd=%2Fweb%2F$DOMAIN
 FTP:
    host: $IP
    port: 21
