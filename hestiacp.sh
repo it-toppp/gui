@@ -3,6 +3,7 @@
 #apt install curl &>/dev/null
 PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= < /dev/urandom | head -c 12)
 DOMAIN=$1
+DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
 IP=$(wget -O - -q ifconfig.me)
 DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
@@ -92,7 +93,7 @@ echo "Full installation completed [ OK ]"
 #/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
 #fi
 #/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
-DB=$(echo $domain | tr -dc "a-z" | cut -c 1-5)
+
 v-add-database admin $DB $DB $PASSWD
 
 echo "Which script use?"
