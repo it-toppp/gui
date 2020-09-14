@@ -11,8 +11,10 @@ hostnamectl set-hostname $DOMAIN
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install-debian.sh
 bash hst-install-debian.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
 eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
+
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
+v-add-database admin $DB $DB $PASSWD
 
 echo Installation will take about 1 minutes ...
 
@@ -79,9 +81,8 @@ sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
-apt -y install ffmpeg
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
-apt-get install -y nodejs
+apt-get install -y ffmpeg nodejs 1>/dev/null
 
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
@@ -92,9 +93,6 @@ echo "Full installation completed [ OK ]"
 #if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
 #/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
 #fi
-#/usr/local/vesta/bin/v-add-database admin def def $PASSWD mysql
-
-v-add-database admin $DB $DB $PASSWD
 
 echo "Which script use?"
 echo "   1) PLAYTUBE"
@@ -161,17 +159,31 @@ Vesta Control Panel:
     https://$DOMAIN:8083
     username: admin
     password: $PASSWD
+    
 Filemanager:
-   https://$DOMAIN:8083/fm/#/?cd=%2Fweb%2F$DOMAIN
+   https://$DOMAIN:8083/fm/#/?cd=%2Fweb%2F$DOMAIN%2Fpublic_html
+   
+DB:
+   db_name: $DB
+   db_user: $DB
+   db_pass: $PASSWD
+   
+phpMyAdmin:
+   http://$IP/phpmyadmin
+   username = root
+   $(grep pass /root/.my.cnf)
+   
 FTP:
    host: $IP
    port: 21
    username: admin
    password: $PASSWD
-phpMyAdmin:
-   http://$IP/phpmyadmin
-   username = root
-   $(grep pass /root/.my.cnf)
+   
+SSH:
+   host: $IP
+   username: root
+   password: 
+ 
 "
 echo '======================================================='
 cat $tmpfile
