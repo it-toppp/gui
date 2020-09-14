@@ -22,6 +22,7 @@ echo Installation will take about 1 minutes ...
 
 #mysql
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
+sed -i 's|#innodb_use_native_aio = 0|sql_mode=NO_ENGINE_SUBSTITUTION|' /etc/mysql/my.cnf
 systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
@@ -38,7 +39,7 @@ max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
 HERE
-echo "Fix PHP successfully"
+systemctl restart php7.4-fpm
 
 cat >> /etc/php/7.3/fpm/php.ini << HERE 
 file_uploads = On
@@ -52,7 +53,7 @@ max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
 HERE
-echo "Fix PHP successfully"
+systemctl restart php7.3-fpm
 
 cat >>  /etc/php/7.2/fpm/php.ini << HERE 
 file_uploads = On
@@ -66,7 +67,7 @@ max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
 HERE
-echo "Fix PHP successfully"
+systemctl restart php7.2-fpm
 
 #nginx
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
@@ -168,7 +169,7 @@ Filemanager:
 DB:
    db_name: admin_$DB
    db_user: admin_$DB
-   db_pass: $PASSWD
+   db_pass: $DBPASSWD
    
 phpMyAdmin:
    http://$DOMAIN/phpmyadmin
