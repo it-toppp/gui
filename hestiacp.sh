@@ -6,10 +6,10 @@ IP=$(curl ifconfig.me)
 DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
 echo $DOMAIN
-echo $PASSWDD
+echo $PASSWD
 hostnamectl set-hostname $DOMAIN
-wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh
-bash hst-install.sh --apache yes --nginx yes --phpfpm yes --multiphp yes --vsftpd yes --proftpd no --named yes --mysql yes --postgresql no --exim yes --dovecot yes --clamav no --spamassassin yes --iptables yes --fail2ban yes --quota no --api yes --force no --interactive no --port 8083 --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD --lang en
+wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install-debian.sh
+bash hst-install-debian.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
 
