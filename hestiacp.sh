@@ -88,10 +88,6 @@ systemctl restart nginx 1>/dev/null
 systemctl restart nginx 1>/dev/null
 echo "Fix NGINX successfully"
 
-sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
-systemctl restart  mysql 1>/dev/null
-echo "Fix MYSQL successfully"
-
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y ffmpeg nodejs 1>/dev/null
 
