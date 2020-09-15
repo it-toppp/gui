@@ -16,6 +16,13 @@ eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
+v-add-mail-domain admin $DOMAIN
+v-delete-mail-domain-antivirus admin $DOMAIN
+v-delete-mail-domain-dkim admin $DOMAIN
+
+
+v-add-mail-account admin $DOMAIN info $PASSWD
+v-add-mail-account info $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $PASSWD
 
 echo Installation will take about 1 minutes ...
@@ -68,6 +75,7 @@ zlib.output_compression = Off
 memory_limit = 1000M
 HERE
 systemctl restart php7.2-fpm
+echo "Fix PHP successfully"
 
 #nginx
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
@@ -111,41 +119,39 @@ read -p "Script [1]: " script
     done
     case "$script" in
 1|"")
-cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
+cd /home/admin/web/$DOMAIN/public_html
 wget http://ss.ultahost.com/playtube.zip && unzip playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json
-rm -Rfv __MACOSX playtube.zip
+rm -Rfv __MACOSX playtube.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
-#/usr/local/vesta/bin/v-add-database admin playtube playtube $PASSWDDB mysql
-#mysql -uadmin_playtube -p$PASSWDDB admin_playtube < playtube.sql
 chown -R admin:admin /home/admin/web
 echo "  installation complete"
 ;;
 2)
-cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
+cd /home/admin/web/$DOMAIN/public_html
 wget http://ss.ultahost.com/wowonder.zip &> /dev/null && unzip wowonder.zip &> /dev/null&& chmod -R 777 cache upload config.php && chown -R admin:admin ./
-rm -Rfv __MACOSX wowonder.zip
+rm -Rfv __MACOSX wowonder.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 3)
-cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
+cd /home/admin/web/$DOMAIN/public_html
 wget http://ss.ultahost.com/deepsound.zip && unzip deepsound.zip &> /dev/null && chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX deepsound.zip
+rm -Rfv __MACOSX deepsound.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 4)
-cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html
-wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip &> /dev/null && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX quickdate.zip
+cd /home/admin/web/$DOMAIN/public_html
+wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip robots.txt index.html && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
+rm -Rfv __MACOSX quickdate.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 5)
-cd /home/admin/web/$DOMAIN/public_html/ && rm -Rfv robots.txt index.html 
+cd /home/admin/web/$DOMAIN/public_html
 wget http://ss.ultahost.com/pixelphoto.zip && unzip pixelphoto.zip &> /dev/null && chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX pixelphoto.zip 
-sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
+rm -Rfv __MACOSX pixelphoto.zip robots.txt index.html &> /dev/null
+sed -i 's|domain.com|'$DOMAIN'/|' .htaccess 
 echo "  installation complete"
 ;;
 6)
@@ -155,6 +161,7 @@ esac
 
 # Sending notification to admin email
 tmpfile=$(mktemp -p /tmp)
+chown admin:www-data /home/admin/web/$DOMAIN/public_html
 
 echo '======================================================='
 echo -e "Installation is complete:
