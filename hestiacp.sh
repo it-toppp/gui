@@ -123,7 +123,7 @@ echo "  installation complete"
 ;;
 2)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/wowonder.zip &> /dev/null && unzip wowonder.zip &> /dev/null&& chmod -R 777 cache upload config.php && chown -R admin:admin ./
+wget http://ss.ultahost.com/wowonder.zip && unzip wowonder.zip &> /dev/null&& chmod -R 777 cache upload config.php && chown -R admin:admin ./
 rm -Rfv __MACOSX wowonder.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
