@@ -20,9 +20,8 @@ v-add-mail-domain admin $DOMAIN
 v-delete-mail-domain-antivirus admin $DOMAIN
 v-delete-mail-domain-dkim admin $DOMAIN
 
-
+v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
-v-add-mail-account info $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
 
 echo Installation will take about 1 minutes ...
