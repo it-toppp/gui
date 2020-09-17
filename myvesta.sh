@@ -12,19 +12,17 @@ DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 hostnamectl set-hostname $DOMAIN
 wget http://c.myvestacp.com/vst-install-debian.sh
 bash vst-install-debian.sh  --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
-#eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
+eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 
 #v-change-sys-hostname $DOMAIN
 #v-add-letsencrypt-host
 #v-add-mail-domain admin $DOMAIN
-#v-delete-mail-domain-antivirus admin $DOMAIN
-#v-delete-mail-domain-dkim admin $DOMAIN
+v-delete-mail-domain-antivirus admin $DOMAIN
+v-delete-mail-domain-dkim admin $DOMAIN
 
 v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
-
-echo Installation will take about 1 minutes ...
 
 #mysql
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
@@ -33,6 +31,11 @@ systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
 #PHP
+wget https://raw.githubusercontent.com/myvesta/vesta/master/src/deb/for-download/tools/multi-php-install.sh
+sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
+sed -i 's|inst_74=0|inst_74=1|' multi-php-install.sh
+bash multi-php-install.sh
+
 cat >> /etc/php/7.4/fpm/php.ini << HERE 
 file_uploads = On
 allow_url_fopen = On
@@ -93,7 +96,17 @@ apt-get install -y ffmpeg nodejs 1>/dev/null
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
 
-echo "Full installation completed [ OK ]"
+#VESTA CP FileManager:
+cat >> /usr/local/vesta/conf/vesta.conf << HERE 
+FILEMANAGER_KEY='mykey'
+SFTPJAIL_KEY='mykey'
+HERE
+sed -i 's|v_host=|#v_host=|' /usr/local/vesta/bin/v-activate-vesta-license
+sed -i 's|answer=$(curl -s $v_host/activate.php?licence_key=$license&module=$module)|answer=0|' /usr/local/vesta/bin/v-activate-vesta-license
+sed -i 's|check_result|#check_result|' /usr/local/vesta/bin/v-activate-vesta-license
+sed -i 's|$BIN/v-check-vesta-license|#$BIN/v-check-vesta-license|' /usr/local/vesta/bin/v-backup-users
+
+echo "Fix VESTACP-FileManager successfully"
 
 #SITE
 #if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
