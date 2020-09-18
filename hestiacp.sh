@@ -116,7 +116,7 @@ read -p "Script [1]: " script
     case "$script" in
 1|"")
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/playtube.zip && unzip playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json
+wget http://ss.ultahost.com/playtube.zip && unzip -q playtube.zip 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json
 rm -Rfv __MACOSX playtube.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 chown -R admin:admin /home/admin/web
@@ -124,7 +124,7 @@ echo "  installation complete"
 ;;
 2)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/wowonder.zip && unzip wowonder.zip &> /dev/null && chmod -R 777 cache upload config.php && chown -R admin:admin ./
+wget http://ss.ultahost.com/wowonder.zip && unzip -q wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin ./
 rm -Rfv __MACOSX wowonder.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
@@ -138,14 +138,14 @@ echo "  installation complete"
 ;;
 4)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip &> /dev/null && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
+wget http://ss.ultahost.com/quickdate.zip && unzip -q quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
 rm -Rfv __MACOSX quickdate.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 5)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/pixelphoto.zip && unzip pixelphoto.zip &> /dev/null && chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin ./
+wget http://ss.ultahost.com/pixelphoto.zip && unzip -q pixelphoto.zip && chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin ./
 rm -Rfv __MACOSX pixelphoto.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess 
 echo "  installation complete"
