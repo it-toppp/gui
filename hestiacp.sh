@@ -137,7 +137,7 @@ echo "  installation complete"
 ;;
 4)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip robots.txt index.html && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
+wget http://ss.ultahost.com/quickdate.zip && unzip quickdate.zip &> /dev/null && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
 rm -Rfv __MACOSX quickdate.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
