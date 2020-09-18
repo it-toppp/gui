@@ -16,6 +16,7 @@ eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
+v-add-dns-domain admin $DOMAIN $IP
 v-add-mail-domain admin $DOMAIN
 v-delete-mail-domain-antivirus admin $DOMAIN
 v-delete-mail-domain-dkim admin $DOMAIN
