@@ -124,28 +124,28 @@ echo "  installation complete"
 ;;
 2)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/wowonder.zip && unzip -q wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin ./
+wget http://ss.ultahost.com/wowonder.zip && unzip -qo wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin ./
 rm -Rfv __MACOSX wowonder.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 3)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/deepsound.zip && unzip -q deepsound.zip && chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin ./
+wget http://ss.ultahost.com/deepsound.zip && unzip -qo deepsound.zip && chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin ./
 rm -Rfv __MACOSX deepsound.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 4)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/quickdate.zip && unzip -q quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
+wget http://ss.ultahost.com/quickdate.zip && unzip -qo quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
 rm -Rfv __MACOSX quickdate.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
 5)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/pixelphoto.zip && unzip -q pixelphoto.zip && chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin ./
+wget http://ss.ultahost.com/pixelphoto.zip && unzip -qo pixelphoto.zip && chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin ./
 rm -Rfv __MACOSX pixelphoto.zip robots.txt index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess 
 echo "  installation complete"
