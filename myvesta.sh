@@ -24,6 +24,9 @@ v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
 
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+apt-get install -y ffmpeg nodejs 1>/dev/null
+
 #mysql
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 sed -i 's|#innodb_use_native_aio = 0|sql_mode=NO_ENGINE_SUBSTITUTION|' /etc/mysql/my.cnf
@@ -82,7 +85,7 @@ echo "Fix PHP successfully"
 #nginx
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
 sed -i 's|worker_connections  1024;|worker_connections  2024;|' /etc/nginx/nginx.conf
-sed -i 's|send_timeout                    60;|send_timeout  3000;|' /etc/nginx/nginx.conf
+sed -i 's|send_timeout                    30;|send_timeout  3000;|' /etc/nginx/nginx.conf
 sed -i 's|proxy_connect_timeout           30|proxy_connect_timeout   9000|' /etc/nginx/nginx.conf
 sed -i 's|proxy_send_timeout              180|proxy_send_timeout  9000|' /etc/nginx/nginx.conf
 sed -i 's|proxy_read_timeout              300|proxy_read_timeout  9000|' /etc/nginx/nginx.conf
