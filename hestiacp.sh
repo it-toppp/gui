@@ -24,7 +24,7 @@ v-delete-mail-domain-dkim admin $DOMAIN
 v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
-
+sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/packages/default.pkg 
 echo Installation will take about 1 minutes ...
 
 #mysql
@@ -84,7 +84,6 @@ sed -i 's|send_timeout                    60;|send_timeout  3000;|' /etc/nginx/n
 sed -i 's|proxy_connect_timeout           30|proxy_connect_timeout   9000|' /etc/nginx/nginx.conf
 sed -i 's|proxy_send_timeout              180|proxy_send_timeout  9000|' /etc/nginx/nginx.conf
 sed -i 's|proxy_read_timeout              300|proxy_read_timeout  9000|' /etc/nginx/nginx.conf
-systemctl restart nginx 1>/dev/null
 systemctl restart nginx 1>/dev/null
 echo "Fix NGINX successfully"
 
