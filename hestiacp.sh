@@ -77,6 +77,10 @@ HERE
 systemctl restart php7.2-fpm
 echo "Fix PHP successfully"
 
+#Apache
+a2enmod headers
+systemctl restart apache2
+
 #nginx
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
 sed -i 's|worker_connections  1024;|worker_connections  2024;|' /etc/nginx/nginx.conf
@@ -138,7 +142,7 @@ echo "  installation complete"
 4)
 cd /home/admin/web/$DOMAIN/public_html
 wget http://ss.ultahost.com/quickdate.zip && unzip -qo quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX quickdate.zip robots.txt index.html &> /dev/null
+rm -Rfv __MACOSX quickdate.zip index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
