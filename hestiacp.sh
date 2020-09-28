@@ -27,6 +27,10 @@ v-add-database admin $DB $DB $DBPASSWD
 sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/packages/default.pkg 
 echo Installation will take about 1 minutes ...
 
+wget http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+tar zxf ioncube_loaders_lin_x86-64.tar.gz 
+mv ioncube /usr/local 
+
 #mysql
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 sed -i 's|#innodb_use_native_aio = 0|sql_mode=NO_ENGINE_SUBSTITUTION|' /etc/mysql/my.cnf
@@ -59,6 +63,9 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
+[Zend Modules]
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.3.so
+zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.3_ts.so
 HERE
 systemctl restart php7.3-fpm
 
@@ -73,6 +80,9 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
+[Zend Modules]
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.2.so
+zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.2_ts.so
 HERE
 systemctl restart php7.2-fpm
 echo "Fix PHP successfully"
