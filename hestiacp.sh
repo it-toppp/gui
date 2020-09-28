@@ -101,8 +101,9 @@ sed -i 's|proxy_read_timeout              300|proxy_read_timeout  9000|' /etc/ng
 systemctl restart nginx 1>/dev/null
 echo "Fix NGINX successfully"
 
+apt-get install -y ffmpeg 1>/dev/null
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
-apt-get install -y ffmpeg nodejs 1>/dev/null
+apt-get install -y nodejs 1>/dev/null
 
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
