@@ -16,11 +16,11 @@ eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
+v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN
 v-add-dns-domain admin $DOMAIN $IP
 v-add-mail-domain admin $DOMAIN
 v-delete-mail-domain-antivirus admin $DOMAIN
 v-delete-mail-domain-dkim admin $DOMAIN
-
 v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
@@ -116,8 +116,8 @@ echo "Full installation completed [ OK ]"
 #fi
 
 echo "Which script use?"
-echo "   1) PLAYTUBE"
-echo "   2) WOWONDER"
+echo "   1) WOWONDER"
+echo "   2) PLAYTUBE"
 echo "   3) DEEPSOUND"
 echo "   4) QUICKDATE"
 echo "   5) PIXELPHOTO"
@@ -130,16 +130,16 @@ read -p "Script [1]: " script
     case "$script" in
 1|"")
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/playtube.zip && unzip -qo playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json && chown -R admin:admin ./
-rm -Rfv __MACOSX playtube.zip index.html &> /dev/null
+wget http://ss.ultahost.com/wowonder.zip && unzip -qo wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin ./
+rm -Rfv __MACOSX wowonder.zip index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 chown -R admin:admin /home/admin/web
 echo "  installation complete"
 ;;
 2)
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/wowonder.zip && unzip -qo wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin ./
-rm -Rfv __MACOSX wowonder.zip index.html &> /dev/null
+wget http://ss.ultahost.com/playtube.zip && unzip -qo playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json && chown -R admin:admin ./
+rm -Rfv __MACOSX playtube.zip index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 echo "  installation complete"
 ;;
@@ -175,14 +175,15 @@ chown admin:www-data /home/admin/web/$DOMAIN/public_html
 
 echo '======================================================='
 echo -e "Installation is complete:
+    https://$DOMAIN
+    username: admin
+    password: $DBPASSWD
+    
 Vesta Control Panel:
     https://$DOMAIN:8083
     username: admin
     password: $PASSWD
     
-Filemanager:
-   https://$DOMAIN:8083/fm/#/?cd=%2Fweb%2F$DOMAIN%2Fpublic_html
-   
 DB:
    db_name: admin_$DB
    db_user: admin_$DB
