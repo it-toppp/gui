@@ -40,6 +40,11 @@ sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
 sed -i 's|inst_74=0|inst_74=1|' multi-php-install.sh
 bash multi-php-install.sh
 
+grep -rl  "80M" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
+grep -rl  "_time] = 30" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
+grep -rl  "80M" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/80M/5000M/g'  
+grep -rl  "_time] = 30" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
+
 cat >> /etc/php/7.4/fpm/php.ini << HERE 
 file_uploads = On
 allow_url_fopen = On
@@ -176,15 +181,18 @@ tmpfile=$(mktemp -p /tmp)
 chown admin:www-data /home/admin/web/$DOMAIN/public_html
 
 echo '======================================================='
+
 echo -e "Installation is complete:
+  
+    https://$DOMAIN
+    username: admin
+    password: $DBPASSWD
+    
 Vesta Control Panel:
     https://$DOMAIN:8083
     username: admin
     password: $PASSWD
     
-Filemanager:
-   https://$DOMAIN:8083/fm/#/?cd=%2Fweb%2F$DOMAIN%2Fpublic_html
-   
 DB:
    db_name: admin_$DB
    db_user: admin_$DB
@@ -192,8 +200,8 @@ DB:
    
 phpMyAdmin:
    http://$DOMAIN/phpmyadmin
-   username= root
-   $(grep pass /root/.my.cnf)
+   username=root
+   $(grep pass /root/.my.cnf | tr --delete \')
    
 FTP:
    host: $IP
@@ -205,7 +213,11 @@ SSH:
    host: $IP
    username: root
    password: 
- 
-"
+" 
 echo '======================================================='
-cat $tmpfile
+cat $tmpfile"
+echo rm -ri /home/admin/web/$DOMAIN/public_html/install
+echo $PASSWD >  /root/.admin
+ 
+
+
