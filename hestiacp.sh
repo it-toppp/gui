@@ -206,6 +206,6 @@ SSH:
    password: 
  
 "
-echo rf /home/admin/web/'$DOMAIN'/public_html/install
+echo rm -ri /home/admin/web/$DOMAIN/public_html/install
 echo $PASSWD >  /root/.admin
 
