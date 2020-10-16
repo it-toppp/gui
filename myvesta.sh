@@ -40,6 +40,8 @@ sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
 sed -i 's|inst_74=0|inst_74=1|' multi-php-install.sh
 bash multi-php-install.sh
 
+grep -rl  "shell_exec," /etc/php | xargs perl -p -i -e 's/shell_exec,//g'
+
 grep -rl  "80M" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
 grep -rl  "_time] = 30" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
 grep -rl  "80M" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/80M/5000M/g'  
@@ -216,7 +218,7 @@ SSH:
 " 
 echo '======================================================='
 cat $tmpfile"
-echo rm -ri /home/admin/web/$DOMAIN/public_html/install
+echo rm -r /home/admin/web/$DOMAIN/public_html/install
 echo $PASSWD >  /root/.admin
  
 
