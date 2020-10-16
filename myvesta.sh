@@ -58,6 +58,9 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
+[Zend Modules]
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.4.so
+zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.4_ts.so
 HERE
 systemctl restart php7.4-fpm
 
@@ -72,6 +75,9 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
+[Zend Modules]
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.3.so
+zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.3_ts.so
 HERE
 systemctl restart php7.3-fpm
 
@@ -86,6 +92,9 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
+[Zend Modules]
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.2.so
+zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.2_ts.so
 HERE
 systemctl restart php7.2-fpm
 echo "Fix PHP successfully"
