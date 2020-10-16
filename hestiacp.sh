@@ -25,7 +25,7 @@ v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
 sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/packages/default.pkg 
-echo Installation will take about 1 minutes ...
+grep -rl "directoryPerm = 0744" /usr/local/hestia/web/fm/vendor/league/flysystem-sftp | xargs perl -p -i -e 's/directoryPerm = 0744/directoryPerm = 0755/g'
 
 wget http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 tar zxf ioncube_loaders_lin_x86-64.tar.gz 
@@ -49,6 +49,9 @@ max_input_vars = 3000
 max_input_time = 6000
 zlib.output_compression = Off
 memory_limit = 1000M
+[Zend Modules]
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.4.so
+zend_extension_ts = /usr/local/ioncube/ioncube_loader_lin_7.4_ts.so
 HERE
 systemctl restart php7.4-fpm
 
