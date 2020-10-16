@@ -226,7 +226,7 @@ SSH:
    password: 
 " 
 echo '======================================================='
-cat $tmpfile"
+cat $tmpfile
 echo rm -r /home/admin/web/$DOMAIN/public_html/install
 echo $PASSWD >  /root/.admin
  
