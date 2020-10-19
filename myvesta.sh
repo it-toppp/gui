@@ -35,6 +35,7 @@ systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
 #PHP
+mv /etc/php/7.3/fpm/pool.d/www.conf /etc/php/7.3/fpm/pool.d/www.conf_old
 wget https://raw.githubusercontent.com/myvesta/vesta/master/src/deb/for-download/tools/multi-php-install.sh
 sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
 sed -i 's|inst_74=0|inst_74=1|' multi-php-install.sh
@@ -42,10 +43,12 @@ bash multi-php-install.sh
 
 grep -rl  "shell_exec," /etc/php | xargs perl -p -i -e 's/shell_exec,//g'
 
-grep -rl  "upload_max_filesize" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
-grep -rl  "_time] = 30" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
-grep -rl  "80M" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/80M/5000M/g'  
-grep -rl  "_time] = 30" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
+grep -rl  "upload_max_filesize" /usr/local/vesta/data/templates /usr/local/vesta/data/templates | set -e 's/upload_max_filesize/d'
+grep -rl  "post_max_size" /usr/local/vesta/data/templates /usr/local/vesta/data/templates | set -e 's/post_max_size/d'
+grep -rl  "max_execution_time" /usr/local/vesta/data/templates /usr/local/vesta/data/templates | set -e 's/max_execution_time/d'
+
+#grep -rl  "80M" /etc/php/7.3/fpm/pool.d /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
+#grep -rl  "_time] = 30" /etc/php/7.3/fpm/pool.d /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
 
 cat >> /etc/php/7.4/fpm/php.ini << HERE 
 file_uploads = On
