@@ -2,7 +2,7 @@
 #apt update &>/dev/null
 #apt install curl &>/dev/null
 DOMAIN=$1
-PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\*\(\)-+= < /dev/urandom | head -c 12)
+PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
 DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
 
@@ -42,7 +42,7 @@ bash multi-php-install.sh
 
 grep -rl  "shell_exec," /etc/php | xargs perl -p -i -e 's/shell_exec,//g'
 
-grep -rl  "80M" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
+grep -rl  "upload_max_filesize" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
 grep -rl  "_time] = 30" /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
 grep -rl  "80M" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/80M/5000M/g'  
 grep -rl  "_time] = 30" /etc/php/7.3/fpm/pool.d | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
@@ -112,6 +112,11 @@ echo "Fix NGINX successfully"
 
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y ffmpeg nodejs 1>/dev/null
+
+#EXIM
+sed -i 's|  drop    condition     = ${if isip{$sender_helo_name}}|#  drop    condition     = ${if isip{$sender_helo_name}}|' /etc/exim4/exim4.conf.template
+sed -i 's|          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|#          message       = Access denied - Invalid HELO name (See RFC2821 4.1.3)|' /etc/exim4/exim4.conf.template
+systemctl restart exim4
 
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
