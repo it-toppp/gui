@@ -14,8 +14,13 @@ wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-ins
 bash hst-install.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
 eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 
+#if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
+#/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
+#fi
+
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
+v-add-web-domain-alias admin $DOMAIN www.$DOMAIN
 v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN
 v-add-dns-domain admin $DOMAIN $IP
 v-add-mail-domain admin $DOMAIN
@@ -24,13 +29,15 @@ v-delete-mail-domain-dkim admin $DOMAIN
 v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
-sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/packages/default.pkg 
+sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/packages/default.pkg
+sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/users/admin/user.conf
 
 #FIX FM
 grep -rl "directoryPerm = 0744" /usr/local/hestia/web/fm/vendor/league/flysystem-sftp | xargs perl -p -i -e 's/directoryPerm = 0744/directoryPerm = 0755/g'
 grep -rl  "_time] = 300" /usr/local/hestia/php/etc/ | xargs perl -p -i -e 's/_time] = 300/_time] = 30000/g'
 mv /usr/local/hestia/web/fm/configuration.php /usr/local/hestia/web/fm/configuration.php_
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/main/install/deb/filemanager/filegator/configuration.php -O /usr/local/hestia/web/fm/configuration.php
+systemctl restart hestia
 
 wget http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 tar zxf ioncube_loaders_lin_x86-64.tar.gz 
@@ -97,7 +104,7 @@ echo "Fix PHP successfully"
 
 #Apache
 a2enmod headers
-systemctl restart apache2
+systemctl restart apache2  1>/dev/null
 
 #nginx
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
@@ -111,7 +118,7 @@ echo "Fix NGINX successfully"
 
 apt-get install -y ffmpeg 1>/dev/null
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
-apt-get install -y nodejs 1>/dev/null
+apt-get install -y nodejs htop 1>/dev/null
 
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
@@ -119,10 +126,6 @@ wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && s
 echo "Full installation completed [ OK ]"
 
 #SITE
-#if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
-#/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
-#fi
-
 echo "Which script use?"
 echo "   1) WOWONDER"
 echo "   2) PLAYTUBE"
