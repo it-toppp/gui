@@ -35,7 +35,7 @@ systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
 #PHP
-mv /etc/php/7.3/fpm/pool.d/www.conf /etc/php/7.3/fpm/pool.d/www.conf_old
+mv /etc/php/7.3/fpm/pool.d/* /root/
 wget https://raw.githubusercontent.com/myvesta/vesta/master/src/deb/for-download/tools/multi-php-install.sh
 sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
 sed -i 's|inst_74=0|inst_74=1|' multi-php-install.sh
