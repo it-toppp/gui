@@ -41,7 +41,7 @@ sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
 sed -i 's|inst_74=0|inst_74=1|' multi-php-install.sh
 bash multi-php-install.sh
 
-grep -rl  "shell_exec," /etc/php | xargs perl -p -i -e 's/shell_exec,//g'
+grep -rl  "shell_exec," /etc/php /usr/local/vesta | xargs perl -p -i -e 's/shell_exec,//g'
 
 grep -rl  "upload_max_filesize" /usr/local/vesta/data/templates /usr/local/vesta/data/templates | set -e 's/upload_max_filesize/d'
 grep -rl  "post_max_size" /usr/local/vesta/data/templates /usr/local/vesta/data/templates | set -e 's/post_max_size/d'
