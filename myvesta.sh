@@ -25,8 +25,9 @@ v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
 v-add-database admin $DB $DB $DBPASSWD
 
+#DEB
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
-apt-get install -y ffmpeg nodejs 1>/dev/null
+apt-get install -y ffmpeg htop nodejs 1>/dev/null
 
 #mysql
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
@@ -35,6 +36,10 @@ systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
 #PHP
+wget http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+tar zxf ioncube_loaders_lin_x86-64.tar.gz 
+mv ioncube /usr/local 
+
 #mv /etc/php/7.3/fpm/pool.d/* /root/
 wget https://raw.githubusercontent.com/myvesta/vesta/master/src/deb/for-download/tools/multi-php-install.sh
 sed -i 's|inst_72=0|inst_72=1|' multi-php-install.sh
@@ -112,9 +117,6 @@ sed -i 's|proxy_read_timeout              300|proxy_read_timeout  9000|' /etc/ng
 systemctl restart nginx 1>/dev/null
 systemctl restart nginx 1>/dev/null
 echo "Fix NGINX successfully"
-
-curl -sL https://deb.nodesource.com/setup_12.x | bash -
-apt-get install -y ffmpeg nodejs 1>/dev/null
 
 #EXIM
 sed -i 's|  drop    condition     = ${if isip{$sender_helo_name}}|#  drop    condition     = ${if isip{$sender_helo_name}}|' /etc/exim4/exim4.conf.template
