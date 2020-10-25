@@ -43,9 +43,9 @@ bash multi-php-install.sh
 
 grep -rl  "shell_exec," /etc/php /usr/local/vesta | xargs perl -p -i -e 's/shell_exec,//g'
 
-grep -rl  "upload_max_filesize" /etc/php /usr/local/vesta/data/templates | sed -e 's/upload_max_filesize/d'
-grep -rl  "post_max_size" /etc/php /usr/local/vesta/data/templates | sed -e 's/post_max_size/d'
-grep -rl  "max_execution_time" /etc/php /usr/local/vesta/data/templates | sed -e 's/max_execution_time/d'
+grep -rl  "upload_max_filesize" /etc/php /usr/local/vesta/data/templates | xargs sed -i '/upload_max_filesize/d'
+grep -rl  "post_max_size" /etc/php /usr/local/vesta/data/templates | xargs sed -i '/post_max_size/d'
+grep -rl  "max_execution_time" /etc/php /usr/local/vesta/data/templates | xargs sed -i '/max_execution_time/d'
 
 #grep -rl  "80M" /etc/php/7.3/fpm/pool.d /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/80M/5000M/g'  
 #grep -rl  "_time] = 30" /etc/php/7.3/fpm/pool.d /usr/local/vesta/data/templates/web/apache2 | xargs perl -p -i -e 's/_time] = 30/_time] = 5000/g'
