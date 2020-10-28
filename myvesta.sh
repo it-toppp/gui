@@ -144,8 +144,8 @@ echo "Fix VESTACP-FileManager successfully"
 #fi
 
 echo "Which script use?"
-echo "   1) PLAYTUBE"
-echo "   2) WOWONDER"
+echo "   1) WOWONDER"
+echo "   2) PLAYTUBE"
 echo "   3) DEEPSOUND"
 echo "   4) QUICKDATE"
 echo "   5) PIXELPHOTO"
