@@ -2,7 +2,8 @@
 #apt update &>/dev/null
 #apt install curl &>/dev/null
 DOMAIN=$1
-PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
+PASSWD=$2
+#PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
 DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
 
@@ -214,7 +215,7 @@ FTP:
 SSH:
    host: $IP
    username: root
-   password: 
+   password: $PASSWD
  
 "
 echo rm -r /home/admin/web/$DOMAIN/public_html/install
