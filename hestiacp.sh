@@ -3,6 +3,7 @@
 #apt install curl &>/dev/null
 DOMAIN=$1
 PASSWD=$2
+#if [ -z "$1" ]
 #PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
 DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
