@@ -136,6 +136,7 @@ sed -i 's|v_host=|#v_host=|' /usr/local/vesta/bin/v-activate-vesta-license
 sed -i 's|answer=$(curl -s $v_host/activate.php?licence_key=$license&module=$module)|answer=0|' /usr/local/vesta/bin/v-activate-vesta-license
 sed -i 's|check_result|#check_result|' /usr/local/vesta/bin/v-activate-vesta-license
 sed -i 's|$BIN/v-check-vesta-license|#$BIN/v-check-vesta-license|' /usr/local/vesta/bin/v-backup-users
+crontab -l | { cat; echo "0 */1 * * * /usr/bin/sed -i "/FILEMANAGER_KEY=''/d" /usr/local/vesta/conf/vesta.conf >> /usr/local/vesta/conf/vesta.conf && sudo /usr/bin/grep -q -F "FILEMANAGER_KEY='ILOVEREO'" /usr/local/vesta/conf/vesta.conf || /usr/bin/echo "FILEMANAGER_KEY='ILOVEREO'" >> /usr/local/vesta/conf/vesta.conf"; } | crontab -
 
 echo "Fix VESTACP-FileManager successfully"
 
