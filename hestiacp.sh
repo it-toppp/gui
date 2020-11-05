@@ -106,6 +106,21 @@ echo "Fix PHP successfully"
 
 #Apache
 a2enmod headers
+cat > /etc/apache2/mods-enabled/fcgid.conf << HERE 
+<IfModule mod_fcgid.c>
+  FcgidConnectTimeout 20
+
+  FcgidBusyTimeout 72000
+  FcgidIOTimeout 72000
+  IPCCommTimeout 72000
+  MaxRequestLen 320000000000
+  FcgidMaxRequestLen 320000000000
+
+  <IfModule mod_mime.c>
+    AddHandler fcgid-script .fcgi
+  </IfModule>
+</IfModule>
+HERE
 systemctl restart apache2  1>/dev/null
 
 #nginx
