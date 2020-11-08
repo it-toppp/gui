@@ -109,7 +109,8 @@ a2enmod headers
 cat > /etc/apache2/mods-enabled/fcgid.conf << HERE 
 <IfModule mod_fcgid.c>
   FcgidConnectTimeout 20
-
+  
+  ProxyTimeout 6000
   FcgidBusyTimeout 72000
   FcgidIOTimeout 72000
   IPCCommTimeout 72000
@@ -133,6 +134,7 @@ sed -i 's|proxy_read_timeout              300|proxy_read_timeout  9000|' /etc/ng
 systemctl restart nginx 1>/dev/null
 echo "Fix NGINX successfully"
 
+#DEB (ffmpeg,node)
 apt-get install -y ffmpeg 1>/dev/null
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y nodejs htop 1>/dev/null
@@ -218,7 +220,7 @@ DB:
    db_pass: $DBPASSWD
    
 phpMyAdmin:
-   http://$DOMAIN/phpmyadmin
+   http://$IP/phpmyadmin
    username=root
    $(grep pass /root/.my.cnf | tr --delete \')
    
