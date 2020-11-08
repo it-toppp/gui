@@ -235,7 +235,7 @@ FTP:
 SSH:
    host: $IP
    username: root
-   password: 
+   password: $PASSWD
 " 
 echo '======================================================='
 cat $tmpfile
