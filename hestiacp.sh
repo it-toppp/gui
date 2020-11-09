@@ -46,6 +46,8 @@ tar zxf ioncube_loaders_lin_x86-64.tar.gz
 mv ioncube /usr/local 
 
 #mysql
+sed -i 's|max_connections=200|max_connections=2000|' /etc/mysql/my.cnf
+sed -i 's|max_user_connections=50|max_user_connections=500|' /etc/mysql/my.cnf
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 sed -i 's|#innodb_use_native_aio = 0|sql_mode=NO_ENGINE_SUBSTITUTION|' /etc/mysql/my.cnf
 systemctl restart  mysql 1>/dev/null
@@ -125,6 +127,7 @@ HERE
 systemctl restart apache2  1>/dev/null
 
 #nginx
+sed -i 's|worker_connections  2048;|worker_connections  4096;|' /etc/nginx/nginx.conf
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
 sed -i 's|worker_connections  1024;|worker_connections  2024;|' /etc/nginx/nginx.conf
 sed -i 's|send_timeout                    60;|send_timeout  3000;|' /etc/nginx/nginx.conf
