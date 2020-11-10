@@ -7,11 +7,14 @@ PASSWD=$2
 #PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
 DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
-
 IP=$(wget -O - -q ifconfig.me)
 DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
+#Prepare
 hostnamectl set-hostname $DOMAIN
+touch /etc/apt/sources.list.d/mariadb.list
+chattr +a /etc/apt/sources.list.d/mariadb.list
+
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh
 bash hst-install.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
 eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
