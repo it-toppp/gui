@@ -57,6 +57,8 @@ systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
 
 #PHP
+grep -rl  "pm.max_children = 8" /etc/php /usr/local/vesta/data/templates/web/ | xargs perl -p -i -e 's/pm.max_children = 8/pm.max_children = 100/g'
+
 cat >> /etc/php/7.4/fpm/php.ini << HERE 
 file_uploads = On
 allow_url_fopen = On
