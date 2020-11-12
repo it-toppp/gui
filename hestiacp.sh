@@ -39,7 +39,7 @@ sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/users/admin/user.conf
 
 #FIX FM
 grep -rl "directoryPerm = 0744" /usr/local/hestia/web/fm/vendor/league/flysystem-sftp | xargs perl -p -i -e 's/directoryPerm = 0744/directoryPerm = 0755/g'
-grep -rl  "_time] = 300" /usr/local/hestia/php/etc/ | xargs perl -p -i -e 's/_time] = 300/_time] = 30000/g'
+grep -rl  "_time] = 300" /usr/local/hestia/php/etc/ | xargs perl -p -i -e 's/_time] = 300/_time] = 1200/g'
 mv /usr/local/hestia/web/fm/configuration.php /usr/local/hestia/web/fm/configuration.php_
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/main/install/deb/filemanager/filegator/configuration.php -O /usr/local/hestia/web/fm/configuration.php
 systemctl restart hestia
@@ -116,18 +116,30 @@ a2enmod headers
 cat > /etc/apache2/mods-enabled/fcgid.conf << HERE 
 <IfModule mod_fcgid.c>
   FcgidConnectTimeout 20
-  
   ProxyTimeout 6000
   FcgidBusyTimeout 72000
   FcgidIOTimeout 72000
   IPCCommTimeout 72000
   MaxRequestLen 320000000000
   FcgidMaxRequestLen 320000000000
-
   <IfModule mod_mime.c>
     AddHandler fcgid-script .fcgi
   </IfModule>
 </IfModule>
+HERE
+
+cat > /etc/apache2/mods-available/mpm_event.conf << HERE 
+<IfModule mpm_event_module>
+StartServers  2
+MinSpareThreads  25
+MaxSpareThreads 75
+ThreadLimit 64
+ThreadsPerChild 25
+ServerLimit       200
+MaxRequestWorkers 200
+MaxConnectionsPerChild 0
+</IfModule>
+
 HERE
 systemctl restart apache2  1>/dev/null
 
