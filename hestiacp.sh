@@ -130,7 +130,7 @@ HERE
 systemctl restart apache2  1>/dev/null
 
 #nginx
-sed -i 's|worker_connections  2048;|worker_connections  4096;|' /etc/nginx/nginx.conf
+sed -i 's|worker_connections  2024;|worker_connections  4048;|' /etc/nginx/nginx.conf
 sed -i 's|client_max_body_size            256m|client_max_body_size  5120m|' /etc/nginx/nginx.conf
 sed -i 's|worker_connections  1024;|worker_connections  2024;|' /etc/nginx/nginx.conf
 sed -i 's|send_timeout                    60;|send_timeout  3000;|' /etc/nginx/nginx.conf
