@@ -54,14 +54,16 @@ sed -i 's|max_user_connections=50|max_user_connections=500|' /etc/mysql/my.cnf
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 sed -i 's|#innodb_use_native_aio = 0|sql_mode=NO_ENGINE_SUBSTITUTION|' /etc/mysql/my.cnf
 cat > /etc/mysql/conf.d/z_custom.cnf << HERE 
-    query_cache_size = 128M
-    query_cache_type = 1
+    query_cache_size = 0
+    query_cache_type = 0
     query_cache_limit = 8M
     join_buffer_size = 2M
     table_open_cache = 8192
     table_definition_cache = 1000
     thread_cache_size = 500
-    innodb_buffer_pool_size = 1G
+    tmp_table_size = 256M
+    max_heap_table_size  = 256M
+   innodb_buffer_pool_size = 1G
 HERE
 systemctl restart  mysql 1>/dev/null
 echo "Fix MYSQL successfully"
