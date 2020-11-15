@@ -54,6 +54,7 @@ sed -i 's|max_user_connections=50|max_user_connections=500|' /etc/mysql/my.cnf
 sed -i 's|wait_timeout=10|wait_timeout=10000|' /etc/mysql/my.cnf
 sed -i 's|#innodb_use_native_aio = 0|sql_mode=NO_ENGINE_SUBSTITUTION|' /etc/mysql/my.cnf
 cat > /etc/mysql/conf.d/z_custom.cnf << HERE 
+[mysqld]
     query_cache_size = 0
     query_cache_type = 0
     query_cache_limit = 8M
