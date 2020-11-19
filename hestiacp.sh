@@ -156,11 +156,10 @@ MinSpareThreads  25
 MaxSpareThreads 75
 ThreadLimit 64
 ThreadsPerChild 25
-ServerLimit       200
-MaxRequestWorkers 200
+ServerLimit       2000
+MaxRequestWorkers 2000
 MaxConnectionsPerChild 0
 </IfModule>
-
 HERE
 systemctl restart apache2  1>/dev/null
 
