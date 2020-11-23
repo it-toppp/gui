@@ -4,5 +4,5 @@
  
  ```curl -O https://raw.githubusercontent.com/it-toppp/gui/master/2.sh && chmod +x 2.sh && ./2.sh```
  
- ```curl -O https://raw.githubusercontent.com/it-toppp/gui/master/vesta-change-ip.sh && chmod +x 2.sh && ./2.sh```
+ ```curl -O https://raw.githubusercontent.com/it-toppp/gui/master/vesta-change-ip.sh && chmod +x vesta-change-ip.sh && ./vesta-change-ip.sh```
 
