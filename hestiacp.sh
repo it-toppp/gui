@@ -3,6 +3,8 @@
 #apt install curl &>/dev/null
 DOMAIN=$1
 PASSWD=$2
+PURSHCODE=$3
+
 #if [ -z "$1" ]
 #PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
 DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
@@ -210,6 +212,19 @@ cd /home/admin/web/$DOMAIN/public_html
 wget http://ss.ultahost.com/playtube.zip && unzip -qo playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json && chown -R admin:admin ./
 rm -Rfv __MACOSX playtube.zip index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
+curl --data-urlencode "purshase_code=$PURSHCODE" \
+     --data-urlencode "sql_host=localhost" \
+     --data-urlencode "sql_user=admin_$DB" \
+     --data-urlencode "sql_pass=$DBPASSWD" \
+     --data-urlencode "sql_name=admin_$DB" \
+     --data-urlencode "site_url=https://$DOMAIN" \
+     --data-urlencode "siteName=$DOMAIN" \
+     --data-urlencode "siteTitle=$DOMAIN" \
+	 --data-urlencode "siteEmail=info@$DOMAIN" \
+     --data-urlencode "admin_username=admin" \
+     --data-urlencode "admin_password=$DBPASSWD" \
+	 --data-urlencode "install=install" \
+	   https://$DOMAIN/install/?page=installation &> /dev/null
 echo "  installation complete"
 ;;
 3)
