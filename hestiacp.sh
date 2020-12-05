@@ -220,11 +220,11 @@ curl --data-urlencode "purshase_code=$PURSHCODE" \
      --data-urlencode "site_url=https://$DOMAIN" \
      --data-urlencode "siteName=$DOMAIN" \
      --data-urlencode "siteTitle=$DOMAIN" \
-	 --data-urlencode "siteEmail=info@$DOMAIN" \
+     --data-urlencode "siteEmail=info@$DOMAIN" \
      --data-urlencode "admin_username=admin" \
      --data-urlencode "admin_password=$DBPASSWD" \
-	 --data-urlencode "install=install" \
-	   https://$DOMAIN/install/?page=installation &> /dev/null
+     --data-urlencode "install=install" \
+       http://$DOMAIN/install/?page=installation &> /dev/null
 echo "  installation complete"
 ;;
 3)
