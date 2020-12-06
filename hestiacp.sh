@@ -186,6 +186,7 @@ wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && s
 echo "Full installation completed [ OK ]"
 
 #SITE
+echo "$IP  $DOMAIN" >> /etc/hosts
 echo "Which script use?"
 echo "   1) WOWONDER"
 echo "   2) PLAYTUBE"
@@ -205,6 +206,19 @@ wget http://ss.ultahost.com/wowonder.zip && unzip -qo wowonder.zip && chmod -R 7
 rm -Rfv __MACOSX wowonder.zip index.html &> /dev/null
 sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
 chown -R admin:admin /home/admin/web
+curl --data-urlencode "purshase_code=$PURSHCODE" \
+     --data-urlencode "sql_host=localhost" \
+     --data-urlencode "sql_user=admin_$DB" \
+     --data-urlencode "sql_pass=$DBPASSWD" \
+     --data-urlencode "sql_name=admin_$DB" \
+     --data-urlencode "site_url=https://$DOMAIN" \
+     --data-urlencode "siteName=$DOMAIN" \
+     --data-urlencode "siteTitle=$DOMAIN" \
+     --data-urlencode "siteEmail=info@$DOMAIN" \
+     --data-urlencode "admin_username=admin" \
+     --data-urlencode "admin_password=$DBPASSWD" \
+     --data-urlencode "install=install" \
+       http://$DOMAIN/install/?page=installation | grep -owP 'purchase|MySQL|url|successfully'
 echo "  installation complete"
 ;;
 2)
@@ -224,7 +238,7 @@ curl --data-urlencode "purshase_code=$PURSHCODE" \
      --data-urlencode "admin_username=admin" \
      --data-urlencode "admin_password=$DBPASSWD" \
      --data-urlencode "install=install" \
-       http://$DOMAIN/install/?page=installation &> /dev/null
+       http://$DOMAIN/install/?page=installation | grep -owP 'purchase|successfully' test.html
 echo "  installation complete"
 ;;
 3)
