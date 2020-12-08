@@ -1,14 +1,17 @@
 #!/bin/bash
 #apt update &>/dev/null
 #apt install curl &>/dev/null
+
 DOMAIN=$1
 PASSWD=$2
-PURSHCODE=$3
+SCRIPT=$3
+PURSHCODE=$4
 
 #if [ -z "$1" ]
 #PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
 DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
-DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
+DB=$(LC_CTYPE=C tr -dc a-z0-9 < /dev/urandom | head -c 5)
+#DB=$(echo $DOMAIN | tr -dc "a-z" | cut -c 1-5)
 IP=$(wget -O - -q ifconfig.me)
 DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
@@ -187,26 +190,18 @@ echo "Full installation completed [ OK ]"
 
 #SITE
 echo "$IP  $DOMAIN" >> /etc/hosts
-echo "Which script use?"
-echo "   1) WOWONDER"
-echo "   2) PLAYTUBE"
-echo "   3) DEEPSOUND"
-echo "   4) QUICKDATE"
-echo "   5) PIXELPHOTO"
-echo "   6) OTHER SCRIPT"
-    read -p "Protocol [1]: " script
-    until [[ -z "$script" || "$script" =~ ^[123456]$ ]]; do
-echo "$script: invalid selection."
-read -p "Script [1]: " script
-    done
-    case "$script" in
-1|"")
+#v-add-database admin $DB $DB $DBPASSWD
+if [ ! -z "$SCRIPT" ];
+then
 cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/wowonder.zip && unzip -qo wowonder.zip && chmod -R 777 cache upload config.php && chown -R admin:admin ./
-rm -Rfv __MACOSX wowonder.zip index.html &> /dev/null
-sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
-chown -R admin:admin /home/admin/web
-curl --data-urlencode "purshase_code=$PURSHCODE" \
+rm -fr /home/admin/web/$DOMAIN/public_html/{*,.*}
+wget http://ss.ultahost.com/$SCRIPT.zip
+unzip -qo $SCRIPT.zip
+chmod 777 ffmpeg/ffmpeg upload cache ffmpeg/ffmpeg sys/ffmpeg/ffmpeg ./assets/import/ffmpeg/ffmpeg  &> /dev/null
+chown -R admin:admin ./
+
+curl -L --fail --silent --show-error --post301 --insecur \
+     --data-urlencode "purshase_code=$PURSHCODE" \
      --data-urlencode "sql_host=localhost" \
      --data-urlencode "sql_user=admin_$DB" \
      --data-urlencode "sql_pass=$DBPASSWD" \
@@ -218,54 +213,17 @@ curl --data-urlencode "purshase_code=$PURSHCODE" \
      --data-urlencode "admin_username=admin" \
      --data-urlencode "admin_password=$DBPASSWD" \
      --data-urlencode "install=install" \
-       http://$DOMAIN/install/?page=installation | grep -owP 'purchase|MySQL|url|successfully'
-echo "  installation complete"
-;;
-2)
-cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/playtube.zip && unzip -qo playtube.zip && chmod -R 777 config.php upload assets/import/ffmpeg/ffmpeg nodejs/config.json && chown -R admin:admin ./
-rm -Rfv __MACOSX playtube.zip index.html &> /dev/null
-sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
-curl --data-urlencode "purshase_code=$PURSHCODE" \
-     --data-urlencode "sql_host=localhost" \
-     --data-urlencode "sql_user=admin_$DB" \
-     --data-urlencode "sql_pass=$DBPASSWD" \
-     --data-urlencode "sql_name=admin_$DB" \
-     --data-urlencode "site_url=https://$DOMAIN" \
-     --data-urlencode "siteName=$DOMAIN" \
-     --data-urlencode "siteTitle=$DOMAIN" \
-     --data-urlencode "siteEmail=info@$DOMAIN" \
-     --data-urlencode "admin_username=admin" \
-     --data-urlencode "admin_password=$DBPASSWD" \
-     --data-urlencode "install=install" \
-       http://$DOMAIN/install/?page=installation | grep -owP 'purchase|successfully' test.html
-echo "  installation complete"
-;;
-3)
-cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/deepsound.zip && unzip -qo deepsound.zip && chmod -R 777 upload config.php ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX deepsound.zip index.html &> /dev/null
-sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
-echo "  installation complete"
-;;
-4)
-cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/quickdate.zip && unzip -qo quickdate.zip && chmod -R 777 upload cache config.php ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX quickdate.zip index.html &> /dev/null
-sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
-echo "  installation complete"
-;;
-5)
-cd /home/admin/web/$DOMAIN/public_html
-wget http://ss.ultahost.com/pixelphoto.zip && unzip -qo pixelphoto.zip && chmod -R 777 sys/config.php sys/ffmpeg/ffmpeg && chown -R admin:admin ./
-rm -Rfv __MACOSX pixelphoto.zip index.html &> /dev/null
-sed -i 's|domain.com|'$DOMAIN'/|' .htaccess 
-echo "  installation complete"
-;;
-6)
-echo "  OK"
-;;
-esac
+     http://$DOMAIN/install/?page=installation | grep -o -e "Failed to connect to MySQL" -e "successfully installed" -e "Wrong pu
+rchase code" -e "This code is already used on another domain"
+
+  if grep -wqorP $DOMAIN /home/admin/web/$DOMAIN/public_html;
+  then
+    rm -r ./install  __MACOSX $SCRIPT.zip  &> /dev/null
+  fi
+echo Script $SCRIPT dont installed
+else
+ echo noooooooooooooooooooooooooooooooool
+fi
 
 # Sending notification to admin email
 tmpfile=$(mktemp -p /tmp)
