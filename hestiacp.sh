@@ -214,7 +214,8 @@ curl -L --fail --silent --show-error --post301 --insecur \
      --data-urlencode "admin_password=$DBPASSWD" \
      --data-urlencode "install=install" \
      http://$DOMAIN/install/?page=installation | grep -o -e "Failed to connect to MySQL" -e "successfully installed" -e "Wrong purchase code" -e "This code is already used on another domain"
-
+     mysql admin_$DB -e "UPDATE config SET value = 'on' WHERE  name = 'ffmpeg_system';"
+     mysql admin_$DB -e "UPDATE config SET value = '/usr/bin/ffmpeg' WHERE  name = 'ffmpeg_binary_file';"
   if grep -wqorP $DOMAIN /home/admin/web/$DOMAIN/public_html;
   then
     rm -r ./install  __MACOSX $SCRIPT.zip  &> /dev/null
