@@ -6,3 +6,4 @@
  
  ```curl -O https://raw.githubusercontent.com/it-toppp/gui/master/vesta-change-ip.sh && chmod +x vesta-change-ip.sh && ./vesta-change-ip.sh```
 
+ ```curl -O https://raw.githubusercontent.com/it-toppp/gui/master/scriptsun.sh && chmod +x scriptsun.sh && ./scriptsun.sh```
