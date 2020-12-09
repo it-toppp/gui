@@ -52,7 +52,8 @@ RewriteCond %{HTTP_HOST} ^www.$DOMAIN [NC]
 RewriteRule ^(.*)$ https://$DOMAIN/\$1 [L,R=301]
 HERE
 sed -i -e '/RewriteEngine/r htaccess_tmp' .htaccess
-echo -e "Installation is complete:
+echo -e "Installation $SCRIPT is complete:
     https://$DOMAIN
     username: admin
     password: $DBPASSWD
+"
