@@ -220,14 +220,23 @@ curl -L --fail --silent --show-error --post301 --insecur \
     rm -r ./install  __MACOSX $SCRIPT.zip  &> /dev/null
   else
     echo Script $SCRIPT dont installed
+    echo rm -r /home/admin/web/$DOMAIN/public_html/install
   fi
 else
  echo Only Panel
 fi
 
+#HTACCESS
+cat > htaccess_tmp << HERE
+RewriteCond %{HTTP_HOST} ^www.$DOMAIN [NC]
+RewriteRule ^(.*)$ https://$DOMAIN/\$1 [L,R=301]
+HERE
+sed -i -e '/RewriteEngine/r htaccess_tmp' .htaccess
+rm -f htaccess_tmp
+chown admin:www-data /home/admin/web/$DOMAIN/public_html
+
 # Sending notification to admin email
 tmpfile=$(mktemp -p /tmp)
-chown admin:www-data /home/admin/web/$DOMAIN/public_html
 
 echo '======================================================='
 echo -e "Installation is complete:
@@ -262,6 +271,5 @@ SSH:
    password: $PASSWD
  
 "
-echo rm -r /home/admin/web/$DOMAIN/public_html/install
 echo $PASSWD >  /root/.admin
 
