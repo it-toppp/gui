@@ -1,11 +1,10 @@
 #!/bin/bash
 DOMAIN=$1
-DBPASSWD=$2
-SCRIPT=$3
-PURSHCODE=$4
+SCRIPT=$2
+PURSHCODE=$3
 
 #PASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\%\^\&\(\)-+= < /dev/urandom | head -c 12)
-#DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
+DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 5)
 IP=$(wget -O - -q ifconfig.me)
 
