@@ -74,8 +74,8 @@ cat > /etc/mysql/conf.d/z_custom.cnf << HERE
     
     max_heap_table_size  = 256M
     max_allowed_packet = 1024M
-    max_connections = 2000
-    max_user_connections = 500
+    max_connections = 20000
+    max_user_connections = 5000
     wait_timeout = 10000
        
 HERE
