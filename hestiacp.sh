@@ -20,6 +20,7 @@ hostnamectl set-hostname $DOMAIN
 touch /etc/apt/sources.list.d/mariadb.list
 chattr +a /etc/apt/sources.list.d/mariadb.list
 
+
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh
 bash hst-install.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
 eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
@@ -27,6 +28,12 @@ eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 #if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
 #/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
 #fi
+
+#DEB (ffmpeg,node)
+apt update 1>/dev/null
+apt-get install -y ffmpeg 1>/dev/null
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+apt-get install -y nodejs htop 1>/dev/null
 
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
@@ -177,11 +184,6 @@ sed -i 's|proxy_send_timeout              180|proxy_send_timeout  9000|' /etc/ng
 sed -i 's|proxy_read_timeout              300|proxy_read_timeout  9000|' /etc/nginx/nginx.conf
 systemctl restart nginx 1>/dev/null
 echo "Fix NGINX successfully"
-
-#DEB (ffmpeg,node)
-apt-get install -y ffmpeg 1>/dev/null
-curl -sL https://deb.nodesource.com/setup_12.x | bash -
-apt-get install -y nodejs htop 1>/dev/null
 
 #SWAP
 wget https://raw.githubusercontent.com/it-toppp/Swap/master/swap.sh -O swap && sh swap 2048
