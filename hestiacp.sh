@@ -23,7 +23,6 @@ chattr +a /etc/apt/sources.list.d/mariadb.list
 
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh
 bash hst-install.sh --multiphp yes --clamav no --interactive no --hostname $DOMAIN --email admin@$DOMAIN --password $PASSWD 
-eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 
 #if [ "$DIG_IP" = "$IP" ]; then echo  "DNS lookup for $DOMAIN resolved to $DIG_IP, enabled ssl"
 #/usr/local/vesta/bin/v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN "yes"
@@ -35,6 +34,7 @@ apt-get install -y ffmpeg 1>/dev/null
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y nodejs htop 1>/dev/null
 
+eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
 v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
 v-add-web-domain-alias admin $DOMAIN www.$DOMAIN
