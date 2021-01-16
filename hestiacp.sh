@@ -2,6 +2,19 @@
 apt-get update &>/dev/null
 #apt install curl &>/dev/null
 
+# UFW_disable
+tmpfile=$(mktemp -p /tmp)
+dpkg --get-selections > $tmpfile
+for pkg in exim4 postfix ufw; do
+    if [ ! -z "$(grep $pkg $tmpfile)" ]; then
+        conflicts="$pkg* $conflicts"
+        apt-get -qq purge $conflicts -y
+        check_result $? 'apt-get remove failed'
+        unset $answer
+    fi
+done
+rm -f $tmpfile
+
 DOMAIN=$1
 PASSWD=$2
 SCRIPT=$3
@@ -247,7 +260,7 @@ echo -e "Installation is complete:
     password: $DBPASSWD
     
 Vesta Control Panel:
-    https://$DOMAIN:8083
+    https://$DOMAIN:8083  or  https://$IP:8083
     username: admin
     password: $PASSWD
     
