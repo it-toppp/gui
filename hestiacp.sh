@@ -68,6 +68,7 @@ grep -rl  "_time] = 300" /usr/local/hestia/php/etc/ | xargs perl -p -i -e 's/_ti
 mv /usr/local/hestia/web/fm/configuration.php /usr/local/hestia/web/fm/configuration.php_
 wget https://raw.githubusercontent.com/hestiacp/hestiacp/main/install/deb/filemanager/filegator/configuration.php -O /usr/local/hestia/web/fm/configuration.php
 systemctl restart hestia
+curl -SsL https://raw.githubusercontent.com/it-toppp/ultahost/main/fm/filemanager.sh | bash
 
 wget http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 tar zxf ioncube_loaders_lin_x86-64.tar.gz 
