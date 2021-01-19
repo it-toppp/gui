@@ -59,6 +59,7 @@ v-delete-mail-domain-antivirus admin $DOMAIN
 v-delete-mail-domain-dkim admin $DOMAIN
 v-add-mail-account admin $DOMAIN admin $PASSWD
 v-add-mail-account admin $DOMAIN info $PASSWD
+v-add-mail-domain-ssl admin $DOMAIN
 v-add-database admin $DB $DB $DBPASSWD
 sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/packages/default.pkg
 sed -i "s|BACKUPS='1'|BACKUPS='3'|" /usr/local/hestia/data/users/admin/user.conf
