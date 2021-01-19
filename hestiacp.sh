@@ -30,6 +30,7 @@ DIG_IP=$(getent ahostsv4 $DOMAIN | sed -n 's/ *STREAM.*//p')
 
 #Prepare
 hostnamectl set-hostname $DOMAIN
+echo "$IP  $DOMAIN" >> /etc/hosts
 touch /etc/apt/sources.list.d/mariadb.list
 chattr +a /etc/apt/sources.list.d/mariadb.list
 
