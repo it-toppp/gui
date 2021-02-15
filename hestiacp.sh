@@ -45,7 +45,7 @@ bash hst-install.sh --multiphp yes --clamav no --interactive no --hostname $DOMA
 #DEB (ffmpeg,node)
 #apt update 1>/dev/null
 apt-get install -y ffmpeg 1>/dev/null
-curl -sL https://deb.nodesource.com/setup_12.x | bash -
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt-get install -y nodejs htop 1>/dev/null
 
 eval "$(exec /usr/bin/env -i "${SHELL}" -l -c "export")"
