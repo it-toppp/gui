@@ -49,7 +49,7 @@ curl -L --fail --silent --show-error --post301 --insecur \
 
   if grep -wqorP $DOMAIN /home/admin/web/$DOMAIN/public_html;
   then
-    rm -r ./install  __MACOSX $SCRIPT.zip  &> /dev/null
+  #  rm -r ./install  __MACOSX $SCRIPT.zip  &> /dev/null
     echo Script $SCRIPT installed
   else
   echo Script $SCRIPT dont installed
