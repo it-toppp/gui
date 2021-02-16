@@ -8,7 +8,7 @@ DBPASSWD=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 12)
 DB=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 5)
 IP=$(wget -O - -q ifconfig.me)
 
-if [ ! -d "/home/$user/web/$DOMAIN/public_html" ]; then
+if [ ! -d "/home/admin/web/$DOMAIN/public_html" ]; then
 v-add-web-domain admin $DOMAIN $IP yes www.$DOMAIN
 v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN
 fi
