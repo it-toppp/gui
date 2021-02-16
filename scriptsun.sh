@@ -24,6 +24,12 @@ unzip -qo $SCRIPT.zip
 chmod 777 ffmpeg/ffmpeg upload cache ffmpeg/ffmpeg sys/ffmpeg/ffmpeg ./assets/import/ffmpeg/ffmpeg  &> /dev/null
 chown -R admin:admin ./
 
+
+ if [ "$SCRIPT" = "pixelphoto" ]; then
+  mv ./install/index.php ./install/index.php_old
+  wget https://raw.githubusercontent.com/it-toppp/ultahost/main/scripts/pixelphoto/installer.php -O ./install/index.php
+ fi
+ 
 curl -L --fail --silent --show-error --post301 --insecur \
      --data-urlencode "purshase_code=$PURSHCODE" \
      --data-urlencode "sql_host=localhost" \
@@ -38,17 +44,16 @@ curl -L --fail --silent --show-error --post301 --insecur \
      --data-urlencode "admin_password=$DBPASSWD" \
      --data-urlencode "install=install" \
      http://$DOMAIN/install/?page=installation | grep -o -e "Failed to connect to MySQL" -e "successfully installed" -e "Wrong purchase code" -e "This code is already used on another domain"
-     mysql admin_$DB -e "UPDATE config SET value = 'on' WHERE  name = 'ffmpeg_system';"
-     mysql admin_$DB -e "UPDATE config SET value = '/usr/bin/ffmpeg' WHERE  name = 'ffmpeg_binary_file';"
+     mysql admin_$DB -e "UPDATE config SET value = 'on' WHERE  name = 'ffmpeg_system';" &> /dev/null
+     mysql admin_$DB -e "UPDATE config SET value = '/usr/bin/ffmpeg' WHERE  name = 'ffmpeg_binary_file';" &> /dev/null
 
   if grep -wqorP $DOMAIN /home/admin/web/$DOMAIN/public_html;
   then
     rm -r ./install  __MACOSX $SCRIPT.zip  &> /dev/null
+    echo Script $SCRIPT installed
   else
   echo Script $SCRIPT dont installed
   fi
-else
- echo only VestaCP
 fi
 
 cat > htaccess_tmp << HERE
