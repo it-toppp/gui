@@ -14,16 +14,14 @@ v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN
 fi
 echo "$IP  $DOMAIN" >> /etc/hosts
 v-add-database admin $DB $DB $DBPASSWD
-#sed -i 's|domain.com|'$DOMAIN'/|' .htaccess
-if [ ! -z "$SCRIPT" ];
-then
+
+if [ "$SCRIPT" = "wowonder-null" ] || [ "$SCRIPT" = "wowonder" ]; then
 cd /home/admin/web/$DOMAIN/public_html
 rm -fr /home/admin/web/$DOMAIN/public_html/{*,.*}
 wget http://ss.ultahost.com/$SCRIPT.zip
 unzip -qo $SCRIPT.zip
 chmod 777 ffmpeg/ffmpeg upload cache ffmpeg/ffmpeg sys/ffmpeg/ffmpeg ./assets/import/ffmpeg/ffmpeg  &> /dev/null
 chown -R admin:admin ./
-
 
  if [ "$SCRIPT" = "pixelphoto" ]; then
   mv ./install/index.php ./install/index.php_old
