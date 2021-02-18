@@ -43,7 +43,7 @@ bash hst-install.sh --multiphp yes --clamav no --interactive no --hostname $DOMA
 #fi
 
 #DEB (ffmpeg,node)
-#apt update 1>/dev/null
+#apt-get update 1>/dev/null
 apt-get install -y ffmpeg 1>/dev/null
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt-get install -y nodejs htop 1>/dev/null
@@ -53,6 +53,7 @@ v-change-sys-hostname $DOMAIN
 v-add-letsencrypt-host
 v-add-web-domain-alias admin $DOMAIN www.$DOMAIN
 v-add-letsencrypt-domain admin $DOMAIN www.$DOMAIN
+v-schedule-letsencrypt-domain admin $DOMAIN www.$DOMAIN
 v-add-dns-domain admin $DOMAIN $IP
 v-add-mail-domain admin $DOMAIN
 v-delete-mail-domain-antivirus admin $DOMAIN
